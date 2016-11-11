@@ -3,22 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package visualnovel;
+package forms;
 
 /**
  *
  * @author Estevan
  */
-public class Game extends javax.swing.JFrame {
+public class Editor extends javax.swing.JFrame {
 
     /**
-     * Creates new form Game
+     * Creates new form Editor
      */
-    public Game() {
+    public Editor() {
         initComponents();
     }
-
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -30,12 +29,12 @@ public class Game extends javax.swing.JFrame {
 
         PanelBase = new javax.swing.JPanel();
         ButtonBack = new javax.swing.JButton();
-        LabelGame = new javax.swing.JLabel();
+        LabelEditor = new javax.swing.JLabel();
         Separator1 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Visual Novel - Jogo");
-        setMinimumSize(new java.awt.Dimension(400, 300));
+        setTitle("Visual Novel - Editor");
+        setMinimumSize(new java.awt.Dimension(500, 300));
 
         PanelBase.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -46,8 +45,8 @@ public class Game extends javax.swing.JFrame {
             }
         });
 
-        LabelGame.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
-        LabelGame.setText("Game");
+        LabelEditor.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        LabelEditor.setText("Editor");
 
         javax.swing.GroupLayout PanelBaseLayout = new javax.swing.GroupLayout(PanelBase);
         PanelBase.setLayout(PanelBaseLayout);
@@ -58,24 +57,24 @@ public class Game extends javax.swing.JFrame {
                 .addComponent(ButtonBack, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
             .addGroup(PanelBaseLayout.createSequentialGroup()
-                .addGap(42, 42, 42)
+                .addGap(32, 32, 32)
                 .addGroup(PanelBaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(LabelGame, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(LabelEditor, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(PanelBaseLayout.createSequentialGroup()
                         .addGap(70, 70, 70)
                         .addComponent(Separator1, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(65, Short.MAX_VALUE))
         );
         PanelBaseLayout.setVerticalGroup(
             PanelBaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelBaseLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PanelBaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(LabelGame, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(LabelEditor, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(PanelBaseLayout.createSequentialGroup()
                         .addGap(29, 29, 29)
                         .addComponent(Separator1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
                 .addComponent(ButtonBack, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -96,7 +95,7 @@ public class Game extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ButtonBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonBackActionPerformed
-        MainMenu m = new MainMenu();        
+        MainMenu m = new MainMenu();
         m.main(null);
         dispose();
     }//GEN-LAST:event_ButtonBackActionPerformed
@@ -118,27 +117,27 @@ public class Game extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Game.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Editor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Game.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Editor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Game.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Editor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Game.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Editor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Game().setVisible(true);
+                new Editor().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonBack;
-    private javax.swing.JLabel LabelGame;
+    private javax.swing.JLabel LabelEditor;
     private javax.swing.JPanel PanelBase;
     private javax.swing.JSeparator Separator1;
     // End of variables declaration//GEN-END:variables

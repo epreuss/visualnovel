@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package visualnovel;
+package forms;
 
 /**
  *
@@ -32,7 +32,7 @@ public class MainMenu extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(423, 297));
-        getContentPane().setLayout(new java.awt.GridLayout());
+        getContentPane().setLayout(new java.awt.GridLayout(1, 0));
 
         ButtonEditor.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
         ButtonEditor.setText("Editor");
