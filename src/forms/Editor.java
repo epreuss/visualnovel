@@ -1,9 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package forms;
+import gui.*;
 
 /**
  *
@@ -11,11 +7,11 @@ package forms;
  */
 public class Editor extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Editor
-     */
+    Tree tree = new Tree();
+        
     public Editor() {
         initComponents();
+        tree.createTree(MyTree);
     }
     
     /**
@@ -28,9 +24,39 @@ public class Editor extends javax.swing.JFrame {
     private void initComponents() {
 
         PanelBase = new javax.swing.JPanel();
-        ButtonBack = new javax.swing.JButton();
-        LabelEditor = new javax.swing.JLabel();
+        LabelProjectName = new javax.swing.JLabel();
+        PanelSceneManager = new javax.swing.JPanel();
+        ButtonNewScene = new javax.swing.JButton();
+        ButtonSaveScene = new javax.swing.JButton();
+        ScrollPaneScene = new javax.swing.JScrollPane();
+        ListScene = new javax.swing.JList();
+        PanelImport = new javax.swing.JPanel();
+        ButtonImportBG = new javax.swing.JButton();
+        ButtonImportSprite = new javax.swing.JButton();
+        ButtonImportCG = new javax.swing.JButton();
+        ButtonImportMusic = new javax.swing.JButton();
+        PanelTree = new javax.swing.JPanel();
+        ScrollPaneTree = new javax.swing.JScrollPane();
+        MyTree = new javax.swing.JTree();
+        PanelSceneText = new javax.swing.JPanel();
+        ScrollPaneSceneText = new javax.swing.JScrollPane();
+        TextAreaScene = new javax.swing.JTextArea();
+        PanelSceneEdition = new javax.swing.JPanel();
+        ButtonAddDialogue = new javax.swing.JButton();
+        ButtonChangeBG = new javax.swing.JButton();
+        ButtonChangeMusic = new javax.swing.JButton();
+        ButtonJumpScene = new javax.swing.JButton();
+        ButtonChoose = new javax.swing.JButton();
+        ButtonRemoveSprite = new javax.swing.JButton();
+        ButtonAddSprite = new javax.swing.JButton();
+        ComboBoxSprite = new javax.swing.JComboBox();
         Separator1 = new javax.swing.JSeparator();
+        Separator2 = new javax.swing.JSeparator();
+        MenuBar = new javax.swing.JMenuBar();
+        MenuProject = new javax.swing.JMenu();
+        MenuItemCreate = new javax.swing.JMenuItem();
+        MenuItemLoad = new javax.swing.JMenuItem();
+        MenuItemSave = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Visual Novel - Editor");
@@ -38,46 +64,245 @@ public class Editor extends javax.swing.JFrame {
 
         PanelBase.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        ButtonBack.setText("Voltar");
-        ButtonBack.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonBackActionPerformed(evt);
-            }
-        });
+        LabelProjectName.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        LabelProjectName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        LabelProjectName.setText("Danganronpa: Happy Trigger Havoc");
+        LabelProjectName.setBorder(javax.swing.BorderFactory.createTitledBorder("Nome"));
 
-        LabelEditor.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
-        LabelEditor.setText("Editor");
+        PanelSceneManager.setBorder(javax.swing.BorderFactory.createTitledBorder("Cenas"));
+
+        ButtonNewScene.setText("Nova Cena");
+
+        ButtonSaveScene.setText("Salvar Cena");
+
+        ScrollPaneScene.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        ScrollPaneScene.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+        ListScene.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        ListScene.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Cena 1", "Cena 2", "Cena 3", "Cena 4", "Cena 5", "Cena 6", "Cena 7" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        ListScene.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        ScrollPaneScene.setViewportView(ListScene);
+
+        javax.swing.GroupLayout PanelSceneManagerLayout = new javax.swing.GroupLayout(PanelSceneManager);
+        PanelSceneManager.setLayout(PanelSceneManagerLayout);
+        PanelSceneManagerLayout.setHorizontalGroup(
+            PanelSceneManagerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelSceneManagerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelSceneManagerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(ButtonNewScene, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ScrollPaneScene)
+                    .addComponent(ButtonSaveScene, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        PanelSceneManagerLayout.setVerticalGroup(
+            PanelSceneManagerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelSceneManagerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(ButtonNewScene)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ButtonSaveScene)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ScrollPaneScene, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        PanelImport.setBorder(javax.swing.BorderFactory.createTitledBorder("Importar"));
+
+        ButtonImportBG.setText("Background");
+
+        ButtonImportSprite.setText("Sprite");
+
+        ButtonImportCG.setText("CG");
+
+        ButtonImportMusic.setText("Música");
+
+        javax.swing.GroupLayout PanelImportLayout = new javax.swing.GroupLayout(PanelImport);
+        PanelImport.setLayout(PanelImportLayout);
+        PanelImportLayout.setHorizontalGroup(
+            PanelImportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelImportLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelImportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(ButtonImportSprite, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ButtonImportBG, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ButtonImportCG, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ButtonImportMusic, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
+        );
+        PanelImportLayout.setVerticalGroup(
+            PanelImportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelImportLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(ButtonImportBG)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ButtonImportSprite)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ButtonImportCG)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ButtonImportMusic)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        PanelTree.setBorder(javax.swing.BorderFactory.createTitledBorder("Árvore"));
+
+        ScrollPaneTree.setViewportView(MyTree);
+
+        javax.swing.GroupLayout PanelTreeLayout = new javax.swing.GroupLayout(PanelTree);
+        PanelTree.setLayout(PanelTreeLayout);
+        PanelTreeLayout.setHorizontalGroup(
+            PanelTreeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelTreeLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(ScrollPaneTree, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        PanelTreeLayout.setVerticalGroup(
+            PanelTreeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(ScrollPaneTree, javax.swing.GroupLayout.Alignment.TRAILING)
+        );
+
+        PanelSceneText.setBorder(javax.swing.BorderFactory.createTitledBorder("Arquivo de Cena"));
+
+        TextAreaScene.setColumns(20);
+        TextAreaScene.setRows(5);
+        ScrollPaneSceneText.setViewportView(TextAreaScene);
+
+        javax.swing.GroupLayout PanelSceneTextLayout = new javax.swing.GroupLayout(PanelSceneText);
+        PanelSceneText.setLayout(PanelSceneTextLayout);
+        PanelSceneTextLayout.setHorizontalGroup(
+            PanelSceneTextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(ScrollPaneSceneText, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
+        );
+        PanelSceneTextLayout.setVerticalGroup(
+            PanelSceneTextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(ScrollPaneSceneText)
+        );
+
+        PanelSceneEdition.setBorder(javax.swing.BorderFactory.createTitledBorder("Edição da Cena"));
+
+        ButtonAddDialogue.setText("Adicionar Diálogo");
+
+        ButtonChangeBG.setText("Alterar Background");
+
+        ButtonChangeMusic.setText("Alterar Música");
+
+        ButtonJumpScene.setText("Pular Cena");
+
+        ButtonChoose.setText("Fazer Escolha");
+
+        ButtonRemoveSprite.setText("Remover Sprite");
+
+        ButtonAddSprite.setText("Adicionar Sprite");
+
+        ComboBoxSprite.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Esquerda", "Centro", "Direita" }));
+
+        javax.swing.GroupLayout PanelSceneEditionLayout = new javax.swing.GroupLayout(PanelSceneEdition);
+        PanelSceneEdition.setLayout(PanelSceneEditionLayout);
+        PanelSceneEditionLayout.setHorizontalGroup(
+            PanelSceneEditionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelSceneEditionLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelSceneEditionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelSceneEditionLayout.createSequentialGroup()
+                        .addGroup(PanelSceneEditionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(ButtonAddDialogue, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ButtonChangeMusic, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ButtonChangeBG, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Separator1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ButtonAddSprite, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ButtonRemoveSprite, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ComboBoxSprite, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(PanelSceneEditionLayout.createSequentialGroup()
+                        .addGroup(PanelSceneEditionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(Separator2)
+                            .addComponent(ButtonJumpScene, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ButtonChoose, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
+        );
+        PanelSceneEditionLayout.setVerticalGroup(
+            PanelSceneEditionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelSceneEditionLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(ButtonAddDialogue)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ButtonChangeBG)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ButtonChangeMusic)
+                .addGap(12, 12, 12)
+                .addComponent(Separator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(13, 13, 13)
+                .addComponent(ButtonAddSprite)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ButtonRemoveSprite)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ComboBoxSprite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Separator2, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ButtonJumpScene)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ButtonChoose)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout PanelBaseLayout = new javax.swing.GroupLayout(PanelBase);
         PanelBase.setLayout(PanelBaseLayout);
         PanelBaseLayout.setHorizontalGroup(
             PanelBaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelBaseLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(ButtonBack, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
             .addGroup(PanelBaseLayout.createSequentialGroup()
-                .addGap(32, 32, 32)
+                .addContainerGap()
                 .addGroup(PanelBaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(LabelEditor, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(LabelProjectName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(PanelBaseLayout.createSequentialGroup()
-                        .addGap(70, 70, 70)
-                        .addComponent(Separator1, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(65, Short.MAX_VALUE))
+                        .addGroup(PanelBaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(PanelSceneManager, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(PanelImport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(PanelTree, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(PanelSceneText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(PanelSceneEdition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         PanelBaseLayout.setVerticalGroup(
             PanelBaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelBaseLayout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(PanelBaseLayout.createSequentialGroup()
+                .addComponent(LabelProjectName, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PanelBaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(LabelEditor, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(PanelBaseLayout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(Separator1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
-                .addComponent(ButtonBack, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                    .addGroup(PanelBaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(PanelSceneText, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(PanelTree, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, PanelBaseLayout.createSequentialGroup()
+                            .addComponent(PanelSceneManager, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(PanelImport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(PanelSceneEdition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        MenuProject.setText("Projeto");
+
+        MenuItemCreate.setText("Criar Projeto");
+        MenuProject.add(MenuItemCreate);
+
+        MenuItemLoad.setText("Carregar Projeto");
+        MenuProject.add(MenuItemLoad);
+        MenuItemLoad.getAccessibleContext().setAccessibleName("Carregar Projeto");
+
+        MenuItemSave.setText("Salvar Projeto");
+        MenuProject.add(MenuItemSave);
+
+        MenuBar.add(MenuProject);
+
+        setJMenuBar(MenuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -93,12 +318,6 @@ public class Editor extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void ButtonBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonBackActionPerformed
-        MainMenu m = new MainMenu();
-        m.main(null);
-        dispose();
-    }//GEN-LAST:event_ButtonBackActionPerformed
 
     /**
      * @param args the command line arguments
@@ -136,9 +355,39 @@ public class Editor extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ButtonBack;
-    private javax.swing.JLabel LabelEditor;
+    private javax.swing.JButton ButtonAddDialogue;
+    private javax.swing.JButton ButtonAddSprite;
+    private javax.swing.JButton ButtonChangeBG;
+    private javax.swing.JButton ButtonChangeMusic;
+    private javax.swing.JButton ButtonChoose;
+    private javax.swing.JButton ButtonImportBG;
+    private javax.swing.JButton ButtonImportCG;
+    private javax.swing.JButton ButtonImportMusic;
+    private javax.swing.JButton ButtonImportSprite;
+    private javax.swing.JButton ButtonJumpScene;
+    private javax.swing.JButton ButtonNewScene;
+    private javax.swing.JButton ButtonRemoveSprite;
+    private javax.swing.JButton ButtonSaveScene;
+    private javax.swing.JComboBox ComboBoxSprite;
+    private javax.swing.JLabel LabelProjectName;
+    private javax.swing.JList ListScene;
+    private javax.swing.JMenuBar MenuBar;
+    private javax.swing.JMenuItem MenuItemCreate;
+    private javax.swing.JMenuItem MenuItemLoad;
+    private javax.swing.JMenuItem MenuItemSave;
+    private javax.swing.JMenu MenuProject;
+    private javax.swing.JTree MyTree;
     private javax.swing.JPanel PanelBase;
+    private javax.swing.JPanel PanelImport;
+    private javax.swing.JPanel PanelSceneEdition;
+    private javax.swing.JPanel PanelSceneManager;
+    private javax.swing.JPanel PanelSceneText;
+    private javax.swing.JPanel PanelTree;
+    private javax.swing.JScrollPane ScrollPaneScene;
+    private javax.swing.JScrollPane ScrollPaneSceneText;
+    private javax.swing.JScrollPane ScrollPaneTree;
     private javax.swing.JSeparator Separator1;
+    private javax.swing.JSeparator Separator2;
+    private javax.swing.JTextArea TextAreaScene;
     // End of variables declaration//GEN-END:variables
 }
