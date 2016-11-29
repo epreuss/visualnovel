@@ -8,10 +8,34 @@ import gui.*;
 public class Editor extends javax.swing.JFrame {
 
     Tree tree = new Tree();
-        
+    SceneManager sm = new SceneManager();    
+    
     public Editor() {
         initComponents();
-        tree.createTree(MyTree);
+        tree.createTree(MyTree);        
+        LabelProjectName.setText("");    
+        initSceneManager();
+    }
+    
+    /**
+     * Operações para quando um projeto é criado ou aberto.
+     * Exemplos: Habilitar botões.
+     */
+    private void onProjectStart()
+    {        
+        // Habilitar botões da SceneManager.
+        ButtonNewScene.setEnabled(true);
+        ButtonSaveScene.setEnabled(true);                
+    }    
+    
+    /**
+     * Inicializa variáveis do SceneManager.
+     */
+    private void initSceneManager()
+    {
+        ButtonNewScene.setEnabled(false);
+        ButtonSaveScene.setEnabled(false);        
+        sm.setList(ListScene);
     }
     
     /**
@@ -72,19 +96,31 @@ public class Editor extends javax.swing.JFrame {
         PanelSceneManager.setBorder(javax.swing.BorderFactory.createTitledBorder("Cenas"));
 
         ButtonNewScene.setText("Nova Cena");
+        ButtonNewScene.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonNewSceneActionPerformed(evt);
+            }
+        });
 
         ButtonSaveScene.setText("Salvar Cena");
+        ButtonSaveScene.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonSaveSceneActionPerformed(evt);
+            }
+        });
 
         ScrollPaneScene.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         ScrollPaneScene.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
         ListScene.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         ListScene.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Cena 1", "Cena 2", "Cena 3", "Cena 4", "Cena 5", "Cena 6", "Cena 7" };
+            String[] strings = { " " };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
         ListScene.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        ListScene.setEnabled(false);
+        ListScene.setPreferredSize(new java.awt.Dimension(50, 50));
         ScrollPaneScene.setViewportView(ListScene);
 
         javax.swing.GroupLayout PanelSceneManagerLayout = new javax.swing.GroupLayout(PanelSceneManager);
@@ -148,7 +184,7 @@ public class Editor extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        PanelTree.setBorder(javax.swing.BorderFactory.createTitledBorder("Árvore"));
+        PanelTree.setBorder(javax.swing.BorderFactory.createTitledBorder("Visualização"));
 
         ScrollPaneTree.setViewportView(MyTree);
 
@@ -295,7 +331,6 @@ public class Editor extends javax.swing.JFrame {
 
         MenuItemLoad.setText("Carregar Projeto");
         MenuProject.add(MenuItemLoad);
-        MenuItemLoad.getAccessibleContext().setAccessibleName("Carregar Projeto");
 
         MenuItemSave.setText("Salvar Projeto");
         MenuProject.add(MenuItemSave);
@@ -318,6 +353,14 @@ public class Editor extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void ButtonNewSceneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonNewSceneActionPerformed
+        sm.onButtonNewScene();
+    }//GEN-LAST:event_ButtonNewSceneActionPerformed
+
+    private void ButtonSaveSceneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSaveSceneActionPerformed
+        sm.onButtonSaveScene();
+    }//GEN-LAST:event_ButtonSaveSceneActionPerformed
 
     /**
      * @param args the command line arguments
