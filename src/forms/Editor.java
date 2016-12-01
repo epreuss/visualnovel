@@ -1,7 +1,11 @@
 package forms;
+import gui.ProjectManager;
+import forms.auxiliars.FileSelector;
+import forms.auxiliars.ProjectName;
 import gui.*;
 import java.io.File;
 import model.*;
+import events.*;
 
 /**
  *
@@ -9,15 +13,22 @@ import model.*;
  */
 public class Editor extends javax.swing.JFrame {
 
-    ProjectManager pm = new ProjectManager(this);
+    ProjectManager pm;
+    SceneManager sm;
     Tree tree = new Tree();
-    SceneManager sm = new SceneManager();    
-    
+
     public Editor() {
         initComponents();
         tree.createTree(MyTree);        
         LabelProjectName.setText("");    
-        initSceneManager();
+        setMediaButtonsEnabled(false);
+        this.pm = new ProjectManager(this, MenuProjectExport, MenuProjectSave);
+        this.sm = new SceneManager(this, ListScene, ButtonNewScene, ButtonDeleteScene);
+    }
+    
+    public void onProjectSceneUpdate()
+    {
+        sm.onProjectSceneUpdate(pm.project);        
     }
     
     /**
@@ -29,17 +40,20 @@ public class Editor extends javax.swing.JFrame {
     {
         // Habilitar botões da SceneManager.
         ButtonNewScene.setEnabled(true);
-        ButtonSaveScene.setEnabled(true);    
+        ButtonDeleteScene.setEnabled(true); 
+        sm.updateList(newProject);
+        setMediaButtonsEnabled(true);
     }
     
     /**
-    * Inicializa variáveis do SceneManager.
+    * Ativa ou desativa botões da mídia.
     */
-    private void initSceneManager()
+    private void setMediaButtonsEnabled(boolean active)
     {
-        ButtonNewScene.setEnabled(false);
-        ButtonSaveScene.setEnabled(false);        
-        sm.setList(ListScene);
+        ButtonImportCG.setEnabled(active);
+        ButtonImportBG.setEnabled(active);
+        ButtonImportMusic.setEnabled(active);
+        ButtonImportSprite.setEnabled(active);
     }
     
     /**
@@ -84,7 +98,7 @@ public class Editor extends javax.swing.JFrame {
         LabelProjectName = new javax.swing.JLabel();
         PanelSceneManager = new javax.swing.JPanel();
         ButtonNewScene = new javax.swing.JButton();
-        ButtonSaveScene = new javax.swing.JButton();
+        ButtonDeleteScene = new javax.swing.JButton();
         ScrollPaneScene = new javax.swing.JScrollPane();
         ListScene = new javax.swing.JList();
         PanelImport = new javax.swing.JPanel();
@@ -114,6 +128,7 @@ public class Editor extends javax.swing.JFrame {
         MenuProjectCreate = new javax.swing.JMenuItem();
         MenuProjectLoad = new javax.swing.JMenuItem();
         MenuProjectExport = new javax.swing.JMenuItem();
+        MenuProjectSave = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Visual Novel - Editor");
@@ -136,10 +151,10 @@ public class Editor extends javax.swing.JFrame {
             }
         });
 
-        ButtonSaveScene.setText("Salvar Cena");
-        ButtonSaveScene.addActionListener(new java.awt.event.ActionListener() {
+        ButtonDeleteScene.setText("Deletar Cena");
+        ButtonDeleteScene.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonSaveSceneActionPerformed(evt);
+                ButtonDeleteSceneActionPerformed(evt);
             }
         });
 
@@ -148,13 +163,16 @@ public class Editor extends javax.swing.JFrame {
 
         ListScene.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         ListScene.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { " " };
+            String[] strings = { "Cena 1", "Cena 2", "Cena 3", "Cena 4", "Cena 5", "Cena 6", "Cena 7" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
         ListScene.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        ListScene.setEnabled(false);
-        ListScene.setPreferredSize(new java.awt.Dimension(50, 50));
+        ListScene.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                ListSceneValueChanged(evt);
+            }
+        });
         ScrollPaneScene.setViewportView(ListScene);
 
         javax.swing.GroupLayout PanelSceneManagerLayout = new javax.swing.GroupLayout(PanelSceneManager);
@@ -165,8 +183,8 @@ public class Editor extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(PanelSceneManagerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(ButtonNewScene, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ScrollPaneScene)
-                    .addComponent(ButtonSaveScene, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(ButtonDeleteScene, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ScrollPaneScene, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         PanelSceneManagerLayout.setVerticalGroup(
@@ -175,7 +193,7 @@ public class Editor extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(ButtonNewScene)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ButtonSaveScene)
+                .addComponent(ButtonDeleteScene)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ScrollPaneScene, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -218,7 +236,7 @@ public class Editor extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        PanelTree.setBorder(javax.swing.BorderFactory.createTitledBorder("Visualização"));
+        PanelTree.setBorder(javax.swing.BorderFactory.createTitledBorder("Árvore"));
 
         ScrollPaneTree.setViewportView(MyTree);
 
@@ -360,7 +378,7 @@ public class Editor extends javax.swing.JFrame {
 
         MenuProject.setText("Projeto");
 
-        MenuProjectCreate.setText("Criar Projeto");
+        MenuProjectCreate.setText("Criar");
         MenuProjectCreate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MenuProjectCreateActionPerformed(evt);
@@ -368,7 +386,8 @@ public class Editor extends javax.swing.JFrame {
         });
         MenuProject.add(MenuProjectCreate);
 
-        MenuProjectLoad.setText("Carregar Projeto");
+        MenuProjectLoad.setText("Carregar");
+        MenuProjectLoad.setEnabled(false);
         MenuProjectLoad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MenuProjectLoadActionPerformed(evt);
@@ -376,13 +395,21 @@ public class Editor extends javax.swing.JFrame {
         });
         MenuProject.add(MenuProjectLoad);
 
-        MenuProjectExport.setText("Exportar Projeto");
+        MenuProjectExport.setText("Exportar");
         MenuProjectExport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MenuProjectExportActionPerformed(evt);
             }
         });
         MenuProject.add(MenuProjectExport);
+
+        MenuProjectSave.setText("Salvar");
+        MenuProjectSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuProjectSaveActionPerformed(evt);
+            }
+        });
+        MenuProject.add(MenuProjectSave);
 
         MenuBar.add(MenuProject);
 
@@ -403,14 +430,6 @@ public class Editor extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void ButtonNewSceneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonNewSceneActionPerformed
-        sm.onButtonNewScene();
-    }//GEN-LAST:event_ButtonNewSceneActionPerformed
-
-    private void ButtonSaveSceneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSaveSceneActionPerformed
-        sm.onButtonSaveScene();
-    }//GEN-LAST:event_ButtonSaveSceneActionPerformed
-
     private void MenuProjectCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuProjectCreateActionPerformed
         ProjectName window = null;
         window.main(this);
@@ -424,7 +443,27 @@ public class Editor extends javax.swing.JFrame {
 
     private void MenuProjectExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuProjectExportActionPerformed
         pm.onProjectExport();
+        tree.createTree(MyTree);
     }//GEN-LAST:event_MenuProjectExportActionPerformed
+
+    private void MenuProjectSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuProjectSaveActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_MenuProjectSaveActionPerformed
+	
+    private void ListSceneValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ListSceneValueChanged
+       
+    }//GEN-LAST:event_ListSceneValueChanged
+
+    private void ButtonDeleteSceneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonDeleteSceneActionPerformed
+        if (pm.deleteScene(ListScene.getSelectedIndex()))
+            onProjectSceneUpdate();
+    }//GEN-LAST:event_ButtonDeleteSceneActionPerformed
+
+    private void ButtonNewSceneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonNewSceneActionPerformed
+        pm.addScene();
+        onProjectSceneUpdate();
+    }//GEN-LAST:event_ButtonNewSceneActionPerformed
+
 
     /**
      * @param args the command line arguments
@@ -467,6 +506,7 @@ public class Editor extends javax.swing.JFrame {
     private javax.swing.JButton ButtonChangeBG;
     private javax.swing.JButton ButtonChangeMusic;
     private javax.swing.JButton ButtonChoose;
+    private javax.swing.JButton ButtonDeleteScene;
     private javax.swing.JButton ButtonImportBG;
     private javax.swing.JButton ButtonImportCG;
     private javax.swing.JButton ButtonImportMusic;
@@ -474,7 +514,6 @@ public class Editor extends javax.swing.JFrame {
     private javax.swing.JButton ButtonJumpScene;
     private javax.swing.JButton ButtonNewScene;
     private javax.swing.JButton ButtonRemoveSprite;
-    private javax.swing.JButton ButtonSaveScene;
     private javax.swing.JComboBox ComboBoxSprite;
     private javax.swing.JLabel LabelProjectName;
     private javax.swing.JList ListScene;
@@ -483,6 +522,7 @@ public class Editor extends javax.swing.JFrame {
     private javax.swing.JMenuItem MenuProjectCreate;
     private javax.swing.JMenuItem MenuProjectExport;
     private javax.swing.JMenuItem MenuProjectLoad;
+    private javax.swing.JMenuItem MenuProjectSave;
     private javax.swing.JTree MyTree;
     private javax.swing.JPanel PanelBase;
     private javax.swing.JPanel PanelImport;

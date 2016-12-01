@@ -1,17 +1,22 @@
 package model;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Project 
 {
     String gameName;
     private String directory;
-    private Scene[] scenes;
+    public List<Scene> scenes;
     private Scene currentScene;
-    private int sceneIndex;
+    private int sceneId;
     
     public Project(String gameName)
     {
+        sceneId = 0;
         this.gameName = gameName;
-        sceneIndex = 0;
+        scenes = new ArrayList();
         createEmptyScene();
         updateCurrentScene();
     }
@@ -23,20 +28,53 @@ public class Project
     
     public void createEmptyScene()
     {
-        scenes[sceneIndex] = new Scene(sceneIndex);        
-        sceneIndex++;        
+        scenes.add(new Scene(sceneId));
+        sceneId++;
     }
     
     public void updateCurrentScene()
     {
-        if (scenes.length > 0)
-            currentScene = scenes[sceneIndex-1];
+        if (scenes.size() > 0)
+            currentScene = scenes.get(scenes.size()-1);
         else
             currentScene = null;
     }
     
-    void removeScene(int sceneID)
+    public boolean deleteScene(int sceneID)
     {
-        
+        if (scenes.size() > 0)
+        {   
+            scenes.remove(sceneID);
+            updateCurrentScene();
+            return true;
+        }
+        else
+            return false;
+    }
+    
+    /**
+     * Cria as pastas do projeto.
+     * Sobrescreve a pasta de nome 'gameName' se ela já existe.
+     */
+    public void export()
+    {
+        String path = System.getProperty("user.dir") + "\\projetos\\";
+        new File(path + gameName).mkdir();
+        path += gameName + "\\";
+        new File(path + "backgrounds").mkdir();
+        new File(path + "cgs").mkdir();
+        new File(path + "musics").mkdir();
+        new File(path + "sprites").mkdir();
+        try 
+        {
+            new File(path + "save.save").createNewFile();
+            new File(path + "data.project").createNewFile();
+            for (int i = 0; i < scenes.size(); i++)
+                new File(path + "scene" + scenes.get(i).id + ".scene").createNewFile();                
+        }        
+        catch(Exception e)
+        {
+            System.out.println("Project exception: " + e.getMessage());
+        }        
     }
 }

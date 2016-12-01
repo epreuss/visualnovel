@@ -57,13 +57,13 @@ public class MainMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ButtonEditorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonEditorActionPerformed
-        Editor e = new Editor();
+        Editor e = null;
         e.main(null);
         dispose();
     }//GEN-LAST:event_ButtonEditorActionPerformed
 
     private void ButtonGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonGameActionPerformed
-        Game g = new Game();
+        Game g = null;
         g.main(null);
         dispose();
     }//GEN-LAST:event_ButtonGameActionPerformed

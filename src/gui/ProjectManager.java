@@ -1,16 +1,24 @@
-package model;
+package gui;
 
 import forms.Editor;
 import java.io.File;
+import javax.swing.JMenuItem;
+import model.Project;
 
 public class ProjectManager 
 {
     Editor editor;
-    Project currentProject;
+    public Project project;
+    private JMenuItem export;
+    private JMenuItem save;
     
-    public ProjectManager(Editor editor)
+    public ProjectManager(Editor editor, JMenuItem export, JMenuItem save)
     {
         this.editor = editor;
+        this.export = export;
+        this.save = save;
+        save.setEnabled(false);
+        export.setEnabled(false);
     }
     
     /**
@@ -18,8 +26,10 @@ public class ProjectManager
      */
     public void onProjectCreate(String name)
     {
-        currentProject = new Project(name);    
-        editor.onProjectStart(currentProject);
+        project = new Project(name);    
+        editor.onProjectStart(project);
+        export.setEnabled(true);
+        save.setEnabled(true);
     }
     
     /**
@@ -51,29 +61,25 @@ public class ProjectManager
     }
     
     /**
-     * Callback para quando a interface exporta um projeto.
+     * Callback para quando a interface pede para exportar um projeto.
      */
     public void onProjectExport()
     {
-        
+        project.export();
     }
     
-
-    
-    public void createProject()
+    /**
+     * Deleta uma cena do projeto.
+     * @param index 
+     * @return  
+     */
+    public boolean deleteScene(int index)
     {
-        
-    }
+        return project.deleteScene(index);
+    }        
     
-    public void loadProject(String directory)
+    public void addScene()
     {
-        
+        project.createEmptyScene();
     }
-    
-    public void exportCurrentProject()
-    {
-        
-    }
-        
-        
 }

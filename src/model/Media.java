@@ -5,7 +5,7 @@ package model;
  * para o diretório do projeto que está aberto.
  * @author epreuss
  */
-public class Assets 
+public class Media 
 {
     String directory;
     

@@ -1,4 +1,6 @@
-package forms;
+package forms.auxiliars;
+
+import forms.Editor;
 
 /**
  * Seleciona um nome para o projeto.
@@ -11,7 +13,7 @@ public class ProjectName extends javax.swing.JFrame {
     public ProjectName(Editor e) {
         this.e = e;
         initComponents();
-        ButtonAccept.setEnabled(false);
+        //ButtonAccept.setEnabled(false);
     }
 
     /**
@@ -36,6 +38,7 @@ public class ProjectName extends javax.swing.JFrame {
         LabelMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         LabelMessage.setText("Escolha um nome para o projeto:");
 
+        ProjectName.setText("dr");
         ProjectName.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 ProjectNameKeyReleased(evt);
@@ -103,7 +106,7 @@ public class ProjectName extends javax.swing.JFrame {
     }//GEN-LAST:event_ButtonCancelActionPerformed
 
     private void ProjectNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ProjectNameKeyReleased
-        ButtonAccept.setEnabled(ProjectName.getText().length() > 4);
+        ButtonAccept.setEnabled(ProjectName.getText().length() > 1);
     }//GEN-LAST:event_ProjectNameKeyReleased
 
     /**

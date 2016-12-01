@@ -11,7 +11,7 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="MenuProjectCreate">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Criar Projeto"/>
+                <Property name="text" type="java.lang.String" value="Criar"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MenuProjectCreateActionPerformed"/>
@@ -19,21 +19,27 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="MenuProjectLoad">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Carregar Projeto"/>
+                <Property name="text" type="java.lang.String" value="Carregar"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
-<<<<<<< HEAD
-=======
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MenuProjectLoadActionPerformed"/>
               </Events>
->>>>>>> origin/production
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="MenuProjectExport">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Exportar Projeto"/>
+                <Property name="text" type="java.lang.String" value="Exportar"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MenuProjectExportActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="MenuProjectSave">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Salvar"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MenuProjectSaveActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -166,8 +172,8 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="ButtonNewScene" max="32767" attributes="0"/>
-                          <Component id="ScrollPaneScene" alignment="0" max="32767" attributes="0"/>
-                          <Component id="ButtonSaveScene" alignment="0" max="32767" attributes="0"/>
+                          <Component id="ButtonDeleteScene" alignment="0" max="32767" attributes="0"/>
+                          <Component id="ScrollPaneScene" alignment="0" min="-2" pref="94" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -179,7 +185,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="ButtonNewScene" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="ButtonSaveScene" min="-2" max="-2" attributes="0"/>
+                      <Component id="ButtonDeleteScene" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="ScrollPaneScene" min="-2" pref="97" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
@@ -196,12 +202,12 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonNewSceneActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="ButtonSaveScene">
+            <Component class="javax.swing.JButton" name="ButtonDeleteScene">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Salvar Cena"/>
+                <Property name="text" type="java.lang.String" value="Deletar Cena"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonSaveSceneActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonDeleteSceneActionPerformed"/>
               </Events>
             </Component>
             <Container class="javax.swing.JScrollPane" name="ScrollPaneScene">
@@ -221,16 +227,21 @@
                       <Font name="Tahoma" size="13" style="0"/>
                     </Property>
                     <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
-                      <StringArray count="1">
-                        <StringItem index="0" value=" "/>
+                      <StringArray count="7">
+                        <StringItem index="0" value="Cena 1"/>
+                        <StringItem index="1" value="Cena 2"/>
+                        <StringItem index="2" value="Cena 3"/>
+                        <StringItem index="3" value="Cena 4"/>
+                        <StringItem index="4" value="Cena 5"/>
+                        <StringItem index="5" value="Cena 6"/>
+                        <StringItem index="6" value="Cena 7"/>
                       </StringArray>
                     </Property>
                     <Property name="selectionMode" type="int" value="0"/>
-                    <Property name="enabled" type="boolean" value="false"/>
-                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[50, 50]"/>
-                    </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="ListSceneValueChanged"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -303,7 +314,7 @@
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder title="Visualiza&#xe7;&#xe3;o"/>
+                <TitledBorder title="&#xc1;rvore"/>
               </Border>
             </Property>
           </Properties>

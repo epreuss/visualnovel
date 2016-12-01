@@ -11,9 +11,9 @@ public class Tree {
     private DefaultTreeModel treeModel;
 
     public void createTree(JTree tree) {
-        File fileRoot = new File(System.getProperty("user.dir") + "\\projetos");
+        File fileRoot = new File(System.getProperty("user.dir") + "\\projetos\\");
         root = new DefaultMutableTreeNode(new FileNode(fileRoot));
-        treeModel = new DefaultTreeModel(root);
+        treeModel = new DefaultTreeModel(root);        
 
         tree.setModel(treeModel);
         tree.setShowsRootHandles(true);

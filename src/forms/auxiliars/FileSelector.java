@@ -1,5 +1,6 @@
-package forms;
+package forms.auxiliars;
 
+import forms.Editor;
 import java.io.File;
 
 /**
