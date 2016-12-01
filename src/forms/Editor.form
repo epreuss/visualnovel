@@ -9,23 +9,29 @@
             <Property name="text" type="java.lang.String" value="Projeto"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="MenuItemCreate">
+            <MenuItem class="javax.swing.JMenuItem" name="MenuProjectCreate">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Criar Projeto"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MenuProjectCreateActionPerformed"/>
+              </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="MenuItemLoad">
+            <MenuItem class="javax.swing.JMenuItem" name="MenuProjectLoad">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Carregar Projeto"/>
               </Properties>
-              <AccessibilityProperties>
-                <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Carregar Projeto"/>
-              </AccessibilityProperties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MenuProjectLoadActionPerformed"/>
+              </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="MenuItemSave">
+            <MenuItem class="javax.swing.JMenuItem" name="MenuProjectExport">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Salvar Projeto"/>
+                <Property name="text" type="java.lang.String" value="Exportar Projeto"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MenuProjectExportActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -38,6 +44,7 @@
     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[500, 300]"/>
     </Property>
+    <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="menuBar" type="java.lang.String" value="MenuBar"/>
