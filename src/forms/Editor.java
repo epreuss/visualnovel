@@ -1,5 +1,7 @@
 package forms;
 import gui.*;
+import java.io.File;
+import model.*;
 
 /**
  *
@@ -7,6 +9,7 @@ import gui.*;
  */
 public class Editor extends javax.swing.JFrame {
 
+    ProjectManager pm = new ProjectManager(this);
     Tree tree = new Tree();
     SceneManager sm = new SceneManager();    
     
@@ -20,23 +23,53 @@ public class Editor extends javax.swing.JFrame {
     /**
      * Operações para quando um projeto é criado ou aberto.
      * Exemplos: Habilitar botões.
+     * @param newProject 
      */
-    private void onProjectStart()
-    {        
+    public void onProjectStart(Project newProject)
+    {
         // Habilitar botões da SceneManager.
         ButtonNewScene.setEnabled(true);
-        ButtonSaveScene.setEnabled(true);                
-    }    
+        ButtonSaveScene.setEnabled(true);    
+    }
     
     /**
-     * Inicializa variáveis do SceneManager.
-     */
+    * Inicializa variáveis do SceneManager.
+    */
     private void initSceneManager()
     {
         ButtonNewScene.setEnabled(false);
         ButtonSaveScene.setEnabled(false);        
         sm.setList(ListScene);
     }
+    
+    /**
+     * Callback da janela de seleção do nome do projeto.
+     * @param projectName 
+     */
+    public void onWindowProjectNameAccept(String projectName)
+    {
+        LabelProjectName.setText(projectName);
+        pm.onProjectCreate(projectName);
+        this.setEnabled(true);    
+    }    
+    
+    /**
+     * Callback da janela de seleção do nome do projeto. 
+     */
+    public void onWindowProjectNameCancel()
+    {
+        this.setEnabled(true);    
+    }
+    
+    /**
+     * Callback da janela de seleção de arquivo.     
+     * @param target
+     */
+    public void onFileSelected(File target)
+    {
+        pm.onProjectLoad(target);
+    }
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -78,13 +111,14 @@ public class Editor extends javax.swing.JFrame {
         Separator2 = new javax.swing.JSeparator();
         MenuBar = new javax.swing.JMenuBar();
         MenuProject = new javax.swing.JMenu();
-        MenuItemCreate = new javax.swing.JMenuItem();
-        MenuItemLoad = new javax.swing.JMenuItem();
-        MenuItemSave = new javax.swing.JMenuItem();
+        MenuProjectCreate = new javax.swing.JMenuItem();
+        MenuProjectLoad = new javax.swing.JMenuItem();
+        MenuProjectExport = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Visual Novel - Editor");
         setMinimumSize(new java.awt.Dimension(500, 300));
+        setResizable(false);
 
         PanelBase.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -326,14 +360,29 @@ public class Editor extends javax.swing.JFrame {
 
         MenuProject.setText("Projeto");
 
-        MenuItemCreate.setText("Criar Projeto");
-        MenuProject.add(MenuItemCreate);
+        MenuProjectCreate.setText("Criar Projeto");
+        MenuProjectCreate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuProjectCreateActionPerformed(evt);
+            }
+        });
+        MenuProject.add(MenuProjectCreate);
 
-        MenuItemLoad.setText("Carregar Projeto");
-        MenuProject.add(MenuItemLoad);
+        MenuProjectLoad.setText("Carregar Projeto");
+        MenuProjectLoad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuProjectLoadActionPerformed(evt);
+            }
+        });
+        MenuProject.add(MenuProjectLoad);
 
-        MenuItemSave.setText("Salvar Projeto");
-        MenuProject.add(MenuItemSave);
+        MenuProjectExport.setText("Exportar Projeto");
+        MenuProjectExport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuProjectExportActionPerformed(evt);
+            }
+        });
+        MenuProject.add(MenuProjectExport);
 
         MenuBar.add(MenuProject);
 
@@ -361,6 +410,21 @@ public class Editor extends javax.swing.JFrame {
     private void ButtonSaveSceneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSaveSceneActionPerformed
         sm.onButtonSaveScene();
     }//GEN-LAST:event_ButtonSaveSceneActionPerformed
+
+    private void MenuProjectCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuProjectCreateActionPerformed
+        ProjectName window = null;
+        window.main(this);
+        this.setEnabled(false);                  
+    }//GEN-LAST:event_MenuProjectCreateActionPerformed
+
+    private void MenuProjectLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuProjectLoadActionPerformed
+        FileSelector window = null;
+        window.main(this);        
+    }//GEN-LAST:event_MenuProjectLoadActionPerformed
+
+    private void MenuProjectExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuProjectExportActionPerformed
+        pm.onProjectExport();
+    }//GEN-LAST:event_MenuProjectExportActionPerformed
 
     /**
      * @param args the command line arguments
@@ -415,10 +479,10 @@ public class Editor extends javax.swing.JFrame {
     private javax.swing.JLabel LabelProjectName;
     private javax.swing.JList ListScene;
     private javax.swing.JMenuBar MenuBar;
-    private javax.swing.JMenuItem MenuItemCreate;
-    private javax.swing.JMenuItem MenuItemLoad;
-    private javax.swing.JMenuItem MenuItemSave;
     private javax.swing.JMenu MenuProject;
+    private javax.swing.JMenuItem MenuProjectCreate;
+    private javax.swing.JMenuItem MenuProjectExport;
+    private javax.swing.JMenuItem MenuProjectLoad;
     private javax.swing.JTree MyTree;
     private javax.swing.JPanel PanelBase;
     private javax.swing.JPanel PanelImport;
