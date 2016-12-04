@@ -10,6 +10,10 @@ public class Project
     private String directory;
     public List<Scene> scenes;
     private Scene currentScene;
+    
+    /**
+     * Contador de ID para a criação de cenas.
+     */
     private int sceneId;
     
     public Project(String gameName)
@@ -18,7 +22,7 @@ public class Project
         this.gameName = gameName;
         scenes = new ArrayList();
         createEmptyScene();
-        updateCurrentScene();
+        setCurrentScene(0);
     }
     
     public Scene getCurrentScene()
@@ -32,24 +36,35 @@ public class Project
         sceneId++;
     }
     
-    public void updateCurrentScene()
+    public void saveCurrentScene(List<String> lines)
     {
-        if (scenes.size() > 0)
-            currentScene = scenes.get(scenes.size()-1);
-        else
-            currentScene = null;
+        if (currentScene != null)
+            currentScene.save(lines);
     }
     
-    public boolean deleteScene(int sceneID)
+    public void setCurrentScene(int index)
     {
-        if (scenes.size() > 0)
-        {   
-            scenes.remove(sceneID);
-            updateCurrentScene();
-            return true;
+        if (index >= 0)
+        {
+            currentScene = scenes.get(index);
         }
         else
+        {
+            currentScene = null;
+        }
+    }
+    
+    public boolean deleteCurrentScene()
+    {
+        if (currentScene == null)
             return false;
+        for (int i = 0; i < scenes.size(); i++)
+            if (scenes.get(i).id == currentScene.id)
+            {
+                scenes.remove(i);
+                return true;
+            }
+        return false;
     }
     
     /**

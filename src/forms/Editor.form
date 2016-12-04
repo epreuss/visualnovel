@@ -34,14 +34,6 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MenuProjectExportActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="MenuProjectSave">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Salvar"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MenuProjectSaveActionPerformed"/>
-              </Events>
-            </MenuItem>
           </SubComponents>
         </Menu>
       </SubComponents>
@@ -104,14 +96,14 @@
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="PanelSceneManager" max="32767" attributes="0"/>
-                              <Component id="PanelImport" min="-2" max="-2" attributes="0"/>
+                              <Component id="PanelImport" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="PanelTree" min="-2" max="-2" attributes="0"/>
+                          <Component id="PanelTree" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="PanelSceneText" min="-2" max="-2" attributes="0"/>
+                          <Component id="PanelSceneText" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="PanelSceneEdition" min="-2" max="-2" attributes="0"/>
+                          <Component id="PanelSceneEdition" max="-2" attributes="0"/>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -124,17 +116,15 @@
               <Group type="102" alignment="0" attributes="0">
                   <Component id="LabelProjectName" min="-2" pref="48" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="PanelSceneText" alignment="0" max="32767" attributes="0"/>
-                          <Component id="PanelTree" alignment="0" max="32767" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="PanelSceneManager" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="PanelImport" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="PanelSceneManager" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="PanelImport" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="PanelSceneEdition" min="-2" max="-2" attributes="0"/>
+                      <Component id="PanelSceneEdition" max="-2" attributes="0"/>
+                      <Component id="PanelTree" alignment="0" max="32767" attributes="0"/>
+                      <Component id="PanelSceneText" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -197,6 +187,7 @@
             <Component class="javax.swing.JButton" name="ButtonNewScene">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Nova Cena"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonNewSceneActionPerformed"/>
@@ -205,6 +196,7 @@
             <Component class="javax.swing.JButton" name="ButtonDeleteScene">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Deletar Cena"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonDeleteSceneActionPerformed"/>
@@ -238,6 +230,7 @@
                       </StringArray>
                     </Property>
                     <Property name="selectionMode" type="int" value="0"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
                     <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="ListSceneValueChanged"/>
@@ -261,13 +254,13 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="ButtonImportSprite" max="32767" attributes="0"/>
-                          <Component id="ButtonImportBG" alignment="1" max="32767" attributes="0"/>
-                          <Component id="ButtonImportCG" alignment="1" max="32767" attributes="0"/>
-                          <Component id="ButtonImportMusic" alignment="1" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="ButtonImportBG" max="32767" attributes="0"/>
+                          <Component id="ButtonImportSprite" alignment="0" max="32767" attributes="0"/>
+                          <Component id="ButtonImportCG" max="32767" attributes="0"/>
+                          <Component id="ButtonImportMusic" alignment="0" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="12" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -291,21 +284,25 @@
             <Component class="javax.swing.JButton" name="ButtonImportBG">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Background"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="ButtonImportSprite">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Sprite"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="ButtonImportCG">
               <Properties>
                 <Property name="text" type="java.lang.String" value="CG"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="ButtonImportMusic">
               <Properties>
                 <Property name="text" type="java.lang.String" value="M&#xfa;sica"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -314,7 +311,7 @@
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder title="&#xc1;rvore"/>
+                <TitledBorder title="Arquivos"/>
               </Border>
             </Property>
           </Properties>
@@ -330,7 +327,7 @@
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="ScrollPaneTree" alignment="1" max="32767" attributes="0"/>
+                  <Component id="ScrollPaneTree" alignment="0" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
@@ -360,7 +357,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="ScrollPaneSceneText" alignment="0" pref="271" max="32767" attributes="0"/>
+                  <Component id="ScrollPaneSceneText" alignment="0" min="-2" pref="271" max="-2" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -381,6 +378,7 @@
                   <Properties>
                     <Property name="columns" type="int" value="20"/>
                     <Property name="rows" type="int" value="5"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -391,7 +389,7 @@
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder title="Edi&#xe7;&#xe3;o da Cena"/>
+                <TitledBorder title="Edicao da Cena"/>
               </Border>
             </Property>
           </Properties>
@@ -457,37 +455,44 @@
           <SubComponents>
             <Component class="javax.swing.JButton" name="ButtonAddDialogue">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Adicionar Di&#xe1;logo"/>
+                <Property name="text" type="java.lang.String" value="Adicionar Dialogo"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="ButtonChangeBG">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Alterar Background"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="ButtonChangeMusic">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Alterar M&#xfa;sica"/>
+                <Property name="text" type="java.lang.String" value="Alterar Musica"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="ButtonJumpScene">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Pular Cena"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="ButtonChoose">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Fazer Escolha"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="ButtonRemoveSprite">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Remover Sprite"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="ButtonAddSprite">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Adicionar Sprite"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="ComboBoxSprite">
@@ -499,6 +504,7 @@
                     <StringItem index="2" value="Direita"/>
                   </StringArray>
                 </Property>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JSeparator" name="Separator1">

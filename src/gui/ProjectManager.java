@@ -2,22 +2,21 @@ package gui;
 
 import forms.Editor;
 import java.io.File;
+import java.util.List;
 import javax.swing.JMenuItem;
 import model.Project;
+import model.Scene;
 
 public class ProjectManager 
 {
     Editor editor;
     public Project project;
     private JMenuItem export;
-    private JMenuItem save;
     
-    public ProjectManager(Editor editor, JMenuItem export, JMenuItem save)
+    public ProjectManager(Editor editor, JMenuItem export)
     {
         this.editor = editor;
         this.export = export;
-        this.save = save;
-        save.setEnabled(false);
         export.setEnabled(false);
     }
     
@@ -29,7 +28,6 @@ public class ProjectManager
         project = new Project(name);    
         editor.onProjectStart(project);
         export.setEnabled(true);
-        save.setEnabled(true);
     }
     
     /**
@@ -73,10 +71,25 @@ public class ProjectManager
      * @param index 
      * @return  
      */
-    public boolean deleteScene(int index)
+    public boolean deleteCurrentScene()
     {
-        return project.deleteScene(index);
-    }        
+        return project.deleteCurrentScene();
+    }    
+    
+    public void setCurrentScene(int index)
+    {
+        project.setCurrentScene(index);
+    }
+
+    public Scene getCurrentScene()
+    {
+        return project.getCurrentScene();
+    }
+    
+    public void saveCurrentScene(List<String> lines)
+    {
+        project.saveCurrentScene(lines);
+    }
     
     public void addScene()
     {
