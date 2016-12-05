@@ -20,6 +20,7 @@ public class SceneEditor implements ActionListener
     JTextArea textArea;
     JComboBox comboBox;
     int currentSceneID;
+    String[] staticCodes;
     
     public SceneEditor(Editor editor, JTextArea textArea, JComboBox comboBox)
     {
@@ -27,6 +28,7 @@ public class SceneEditor implements ActionListener
         this.textArea = textArea;
         this.comboBox = comboBox;
         currentSceneID = -1;
+        createCodes();
     }
 
     /**
@@ -38,27 +40,54 @@ public class SceneEditor implements ActionListener
         switch (e.getActionCommand())
         {
             case "Dialogue":
-                addCode("dialogo");
+                addCode(staticCodes[0]);
                 break;
             case "Change BG":
-                addCode("dialogo");
+                addCode(staticCodes[1]);
                 break;
             case "Change Music":
-                addCode("dialogo");
+                addCode(staticCodes[2]);
                 break;
             case "Add Sprite":
-                addCode("dialogo");
+                addCode(getAddSpriteCode());
                 break;
             case "Remove Sprite":
-                addCode("dialogo");
+                addCode(getRemoveSpriteCode());
                 break;
             case "Choose":
-                addCode("dialogo");
+                addCode(staticCodes[3]);
                 break;
             case "Jump":           
-                addCode("dialogo");
+                addCode(staticCodes[4]);
                 break;
         }            
+        editor.projectManager.setCurrentSceneSavedState(false);
+        editor.updateSceneSavedState();
+        textArea.requestFocus();
+    }
+    
+    private void createCodes()
+    {
+        staticCodes = new String[5];
+        staticCodes[0] = "dial \"person\" \"text\"";
+        staticCodes[1] = "changebg \"name.jpeg\"";
+        staticCodes[2] = "playsong \"name.mp3\"\nstopsong";
+        staticCodes[3] = "choice \"pergunta?\", aceita.scene(\"sim\"), nega.scene(\"nao\")";
+        staticCodes[4] = "branch \"name.scene\"";
+    }
+    
+    private String getAddSpriteCode()
+    {
+        String spritePlace = comboBox.getSelectedItem().toString();
+        spritePlace = spritePlace.toLowerCase();
+        return String.format("addsprite(" + spritePlace + ") \"name.jpeg\"");
+    }
+    
+    private String getRemoveSpriteCode()
+    {
+        String spritePlace = comboBox.getSelectedItem().toString();
+        spritePlace = spritePlace.toLowerCase();
+        return String.format("removesprite(" + spritePlace + ")");
     }
     
     /**
@@ -69,7 +98,7 @@ public class SceneEditor implements ActionListener
     {
         if (target == null)
             return;
-        if (currentSceneID != target.id)
+        if (true)//currentSceneID != target.id)
         {            
             currentSceneID = target.id;
             String text = "";
@@ -114,8 +143,39 @@ public class SceneEditor implements ActionListener
      * Adiciona uma linha de codigo para a area de texto.
      * @param code 
      */
-    public void addCode(String code)
+    private void addCode(String code)
     {
-        textArea.setText(textArea.getText() + '\n' + code);
-    }         
+        int caret = textArea.getCaretPosition()-1;     
+        if (caret == -1)
+        {
+            textArea.setText(code + '\n');            
+        }
+        else
+        {
+            String text = textArea.getText();
+            String output = "";
+            System.out.println("Text size: " + text.length() + ", " + caret);
+            for (int i = 0; i < text.length(); i++)
+            {
+                output += text.charAt(i);
+                if (i == caret)
+                    output += code + '\n';
+            }
+            textArea.setText(output);
+        }
+        //setCaretToLastCharacter();
+    }      
+    
+    private void setCaretToLastCharacter()
+    {
+        String text = textArea.getText();
+        for (int i = text.length() - 1; i >= 0; i--)
+        {
+            if (text.charAt(i) != '\n' && text.charAt(i) != ' ')
+            {
+                textArea.setCaretPosition(i);
+                break;
+            }
+        }
+    }
 }

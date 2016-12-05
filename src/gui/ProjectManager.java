@@ -12,12 +12,13 @@ public class ProjectManager
     Editor editor;
     public Project project;
     private JMenuItem export;
+    private JMenuItem save;
     
-    public ProjectManager(Editor editor, JMenuItem export)
+    public ProjectManager(Editor editor, JMenuItem export, JMenuItem save)
     {
-        this.editor = editor;
+        this.editor = editor;        
         this.export = export;
-        export.setEnabled(false);
+        this.save = save;
     }
     
     /**
@@ -28,6 +29,7 @@ public class ProjectManager
         project = new Project(name);    
         editor.onProjectStart(project);
         export.setEnabled(true);
+        save.setEnabled(true);
     }
     
     /**
@@ -71,9 +73,9 @@ public class ProjectManager
      * @param index 
      * @return  
      */
-    public boolean deleteCurrentScene()
+    public void deleteCurrentScene()
     {
-        return project.deleteCurrentScene();
+        project.deleteCurrentScene();
     }    
     
     public void setCurrentScene(int index)
@@ -89,6 +91,21 @@ public class ProjectManager
     public void saveCurrentScene(List<String> lines)
     {
         project.saveCurrentScene(lines);
+    }
+    
+    public Scene getLastCreatedScene()
+    {
+        return project.getLastCreatedScene();
+    }
+    
+    public int getTotalScenes()
+    {
+        return project.getTotalScenes();
+    }
+           
+    public void setCurrentSceneSavedState(boolean state)
+    {
+        project.setCurrentSceneSavedState(state);
     }
     
     public void addScene()

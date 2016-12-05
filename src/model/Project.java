@@ -1,6 +1,8 @@
 package model;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +22,7 @@ public class Project
     {
         sceneId = 0;
         this.gameName = gameName;
+        directory = System.getProperty("user.dir") + "\\projetos\\" + gameName;
         scenes = new ArrayList();
         createEmptyScene();
         setCurrentScene(0);
@@ -28,6 +31,16 @@ public class Project
     public Scene getCurrentScene()
     {
         return currentScene;
+    }
+    
+    public int getTotalScenes()
+    {
+        return scenes.size();
+    }
+    
+    public Scene getLastCreatedScene()
+    {
+        return scenes.get(scenes.size()-1);
     }
     
     public void createEmptyScene()
@@ -42,6 +55,11 @@ public class Project
             currentScene.save(lines);
     }
     
+    public void setCurrentSceneSavedState(boolean state)
+    {
+        currentScene.saved = state;
+    }
+    
     public void setCurrentScene(int index)
     {
         if (index >= 0)
@@ -54,17 +72,11 @@ public class Project
         }
     }
     
-    public boolean deleteCurrentScene()
+    public void deleteCurrentScene()
     {
-        if (currentScene == null)
-            return false;
         for (int i = 0; i < scenes.size(); i++)
             if (scenes.get(i).id == currentScene.id)
-            {
                 scenes.remove(i);
-                return true;
-            }
-        return false;
     }
     
     /**
@@ -73,9 +85,15 @@ public class Project
      */
     public void export()
     {
-        String path = System.getProperty("user.dir") + "\\projetos\\";
-        new File(path + gameName).mkdir();
-        path += gameName + "\\";
+        String path = directory;
+        File mainDir = new File(path);
+        /*
+        if (mainDir.exists())
+            return;
+        */
+        
+        mainDir.mkdir();
+        path += "\\";
         new File(path + "backgrounds").mkdir();
         new File(path + "cgs").mkdir();
         new File(path + "musics").mkdir();
@@ -85,7 +103,21 @@ public class Project
             new File(path + "save.save").createNewFile();
             new File(path + "data.project").createNewFile();
             for (int i = 0; i < scenes.size(); i++)
-                new File(path + "scene" + scenes.get(i).id + ".scene").createNewFile();                
+            {
+                File scene = new File(path + "scene" + scenes.get(i).id + ".scene");                
+                scene.createNewFile();
+                try
+                {
+                    FileWriter writer = new FileWriter(path + scene.getName());
+                    for (String line : scenes.get(i).getText())
+                        writer.append(line);
+                    writer.close();
+                } 
+                catch (Exception e) 
+                {
+                    System.out.println("Project exception: " + e.getMessage());
+                }                
+            }
         }        
         catch(Exception e)
         {

@@ -29,7 +29,7 @@ public class SceneSelector
         delete = d;
         
         scenes = new Vector();
-        scenes.add(" ");
+        //scenes.add(" ");
         
         scenesList = l;        
         scenesList.setEnabled(false);
@@ -47,6 +47,7 @@ public class SceneSelector
         addedScene = true;
         deletedScene = false;
         editor.projectManager.addScene();
+        //addSceneToList(editor.projectManager.getLastCreatedScene());
         updateList(editor.projectManager.project);      
     }
     
@@ -57,9 +58,10 @@ public class SceneSelector
     {
         addedScene = false;
         deletedScene = true;
-        if (editor.projectManager.deleteCurrentScene())
+        if (editor.projectManager.getCurrentScene() != null)
         {
-            updateList(editor.projectManager.project);   
+            editor.projectManager.deleteCurrentScene();
+            updateList(editor.projectManager.project);
             editor.projectManager.setCurrentScene(scenesList.getSelectedIndex());        
         }
     }
@@ -73,64 +75,59 @@ public class SceneSelector
         Caso 4: Deletar cena e sobrar mais de uma.
         Caso 5: Seleciona cena.
         */
-        editor.projectManager.setCurrentScene(scenesList.getSelectedIndex());
         
-        if (true) return;
-        updateList(editor.projectManager.project);      
+        int totalListScenes = scenesList.getModel().getSize();
+        if (totalListScenes != editor.projectManager.getTotalScenes())
+            return;
+        
+        System.out.println("----------------- Cenas: " + scenesList.getModel().getSize());
+        
         
         // Caso 1.
-        if (addedScene && scenesList.isSelectionEmpty())
+        if (addedScene && totalListScenes == 1)
         {
+            System.out.println("Caso 1: Adicionar cena quando nao existem cenas.");
             editor.sceneEditor.setTextAreaEnabled(true);
             editor.projectManager.setCurrentScene(0);
             editor.sceneEditor.updateTextArea(editor.projectManager.getCurrentScene()); 
+            addedScene = false;
         }
         // Caso 2.
-        else if (addedScene && !scenesList.isSelectionEmpty())
+        else if (addedScene && totalListScenes > 1)
         {
-            editor.projectManager.setCurrentScene(scenesList.getSelectedIndex());
+            System.out.println("Caso 2: Adicionar cena quando existem cenas.");
+            addedScene = false;
         }
         // Caso 3.
-        else if (deletedScene && scenesList.isSelectionEmpty())
+        else if (deletedScene && totalListScenes == 0)
         {
-            
+            System.out.println("Caso 3: Deletar cena e sobrar nenhuma.");
             editor.sceneEditor.setTextAreaEnabled(false);
             editor.projectManager.setCurrentScene(scenesList.getSelectedIndex());
             editor.sceneEditor.updateTextArea(editor.projectManager.getCurrentScene()); 
+            deletedScene = false;
         }
         // Caso 4.
-        else if (deletedScene && !scenesList.isSelectionEmpty())
+        else if (deletedScene && totalListScenes > 0)
         {
+            System.out.println("Caso 4: Deletar cena e sobrar mais de uma.");
             editor.projectManager.saveCurrentScene(editor.sceneEditor.getSceneText());
             editor.projectManager.setCurrentScene(scenesList.getSelectedIndex());
             editor.sceneEditor.updateTextArea(editor.projectManager.getCurrentScene()); 
+            deletedScene = false;
         }
         // Caso 5.
         else
         {
-            editor.projectManager.setCurrentScene(scenesList.getSelectedIndex());
-        }
-        
-        
-        /*
-        if (addedScene && !scenesList.isSelectionEmpty())
-        {
-            addedScene = false;
-            return;
-        }
-        */
-        
-        
-        /*
-        Vale -1 quando ele adiciona na lista.
-        Assim, nao eh preciso mudar a cena aberta atual do projeto.
-        */
-        if (scenesList.getSelectedIndex() != -1)
-        {
-            editor.projectManager.saveCurrentScene(editor.sceneEditor.getSceneText());
+            System.out.println("Caso 5: Seleciona cena.");
+            editor.projectManager.saveCurrentScene(editor.sceneEditor.getSceneText());            
             editor.projectManager.setCurrentScene(scenesList.getSelectedIndex());
             editor.sceneEditor.updateTextArea(editor.projectManager.getCurrentScene()); 
-        }    
+            addedScene = false;
+            deletedScene = false;
+        }
+       
+  
     }        
     
     /**
@@ -165,8 +162,42 @@ public class SceneSelector
         }
     }
     
-    public void addSceneToList(Scene s)
+    public void addSceneToList(Scene target)
     {
-        scenes.add("Cena " + s.id);      
-    }        
+        scenes.add("Cena " + target.id); 
+        scenesList.setListData(scenes);   
+    }    
+
+    public void deleteSceneFromList(Scene target)
+    {
+        for (int i = 0; i < scenes.size(); i++)      
+        {
+            if (scenes.get(i).equals(target))
+            {
+                scenes.remove(i);
+                break;
+            }
+        }
+        for (int i = 0; i < scenes.size(); i++)  
+            System.out.println(scenes.get(i));
+        scenesList.setListData(scenes);   
+        
+        int savedSelection = scenesList.getSelectedIndex();
+        if (savedSelection < 0)
+            savedSelection = 0;
+        if (savedSelection >= scenes.size())
+            savedSelection = scenes.size() - 1;
+                
+        if (scenes.size() > 0)
+        {
+            delete.setEnabled(true);
+            scenesList.setEnabled(true);
+            scenesList.setSelectedIndex(savedSelection);        
+        }
+        else
+        {
+            delete.setEnabled(false);
+            scenesList.setEnabled(false);
+        }
+    }
 }

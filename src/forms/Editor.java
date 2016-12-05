@@ -29,7 +29,7 @@ public class Editor extends javax.swing.JFrame {
     {
         tree.createTree(MyTree);        
         LabelProjectName.setText("");    
-        this.projectManager = new ProjectManager(this, MenuProjectExport);
+        this.projectManager = new ProjectManager(this, MenuProjectExport, MenuProjectSave);
         this.sceneSelector = new SceneSelector(this, ListScene, ButtonNewScene, ButtonDeleteScene);
         this.sceneEditor = new SceneEditor(this, TextAreaScene, ComboBoxSprite);
         setSceneEditorListeners();        
@@ -47,6 +47,7 @@ public class Editor extends javax.swing.JFrame {
         ButtonDeleteScene.setEnabled(true); 
         // Habilitar area de texto da cena.
         TextAreaScene.setEnabled(true);
+        TextAreaScene.setText("");
         // Habilitar botoes de edicao de cena.
         setSceneEditorButtonsEnabled(true);
         // Habilitar botoes da midia.
@@ -123,8 +124,17 @@ public class Editor extends javax.swing.JFrame {
     public void onFileSelected(File target)
     {
         projectManager.onProjectLoad(target);
+        this.setEnabled(true);  
     }
     
+    public void updateSceneSavedState()
+    {
+        String output = "Arquivo de Cena";
+        if (projectManager.getCurrentScene() != null && !projectManager.getCurrentScene().saved)
+            output += " (nao salvo)";
+        
+        PanelSceneText.setBorder(javax.swing.BorderFactory.createTitledBorder(output));
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -169,6 +179,7 @@ public class Editor extends javax.swing.JFrame {
         MenuProjectCreate = new javax.swing.JMenuItem();
         MenuProjectLoad = new javax.swing.JMenuItem();
         MenuProjectExport = new javax.swing.JMenuItem();
+        MenuProjectSave = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Visual Novel - Editor");
@@ -305,13 +316,18 @@ public class Editor extends javax.swing.JFrame {
         TextAreaScene.setColumns(20);
         TextAreaScene.setRows(5);
         TextAreaScene.setEnabled(false);
+        TextAreaScene.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TextAreaSceneKeyTyped(evt);
+            }
+        });
         ScrollPaneSceneText.setViewportView(TextAreaScene);
 
         javax.swing.GroupLayout PanelSceneTextLayout = new javax.swing.GroupLayout(PanelSceneText);
         PanelSceneText.setLayout(PanelSceneTextLayout);
         PanelSceneTextLayout.setHorizontalGroup(
             PanelSceneTextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(ScrollPaneSceneText, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(ScrollPaneSceneText, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
         );
         PanelSceneTextLayout.setVerticalGroup(
             PanelSceneTextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -409,10 +425,9 @@ public class Editor extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(PanelTree, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(PanelSceneText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(PanelSceneText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(PanelSceneEdition, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(PanelSceneEdition, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         PanelBaseLayout.setVerticalGroup(
@@ -451,12 +466,22 @@ public class Editor extends javax.swing.JFrame {
         MenuProject.add(MenuProjectLoad);
 
         MenuProjectExport.setText("Exportar");
+        MenuProjectExport.setEnabled(false);
         MenuProjectExport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MenuProjectExportActionPerformed(evt);
             }
         });
         MenuProject.add(MenuProjectExport);
+
+        MenuProjectSave.setText("Salvar");
+        MenuProjectSave.setEnabled(false);
+        MenuProjectSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuProjectSaveActionPerformed(evt);
+            }
+        });
+        MenuProject.add(MenuProjectSave);
 
         MenuBar.add(MenuProject);
 
@@ -485,7 +510,8 @@ public class Editor extends javax.swing.JFrame {
 
     private void MenuProjectLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuProjectLoadActionPerformed
         FileSelector window = null;
-        window.main(this);        
+        window.main(this);   
+        this.setEnabled(false);    
     }//GEN-LAST:event_MenuProjectLoadActionPerformed
 
     private void MenuProjectExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuProjectExportActionPerformed
@@ -493,9 +519,14 @@ public class Editor extends javax.swing.JFrame {
         tree.createTree(MyTree);
     }//GEN-LAST:event_MenuProjectExportActionPerformed
 	
+    private void MenuProjectSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuProjectSaveActionPerformed
+        projectManager.saveCurrentScene(sceneEditor.getSceneText());  
+        updateSceneSavedState();
+    }//GEN-LAST:event_MenuProjectSaveActionPerformed
+
     private void ListSceneValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ListSceneValueChanged
-        System.out.println(evt.toString());
         sceneSelector.onChangeScene();
+        updateSceneSavedState();
     }//GEN-LAST:event_ListSceneValueChanged
 
     private void ButtonDeleteSceneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonDeleteSceneActionPerformed
@@ -505,6 +536,13 @@ public class Editor extends javax.swing.JFrame {
     private void ButtonNewSceneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonNewSceneActionPerformed
         sceneSelector.onButtonNewScene();                
     }//GEN-LAST:event_ButtonNewSceneActionPerformed
+
+    private void TextAreaSceneKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextAreaSceneKeyTyped
+        projectManager.setCurrentSceneSavedState(false);
+        updateSceneSavedState();
+    }//GEN-LAST:event_TextAreaSceneKeyTyped
+
+
 
 
     /**
@@ -564,6 +602,7 @@ public class Editor extends javax.swing.JFrame {
     private javax.swing.JMenuItem MenuProjectCreate;
     private javax.swing.JMenuItem MenuProjectExport;
     private javax.swing.JMenuItem MenuProjectLoad;
+    private javax.swing.JMenuItem MenuProjectSave;
     private javax.swing.JTree MyTree;
     private javax.swing.JPanel PanelBase;
     private javax.swing.JPanel PanelImport;
