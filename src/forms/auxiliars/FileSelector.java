@@ -18,12 +18,14 @@ public class FileSelector extends javax.swing.JFrame {
     public FileSelector(Editor e) {
         this.e = e;
         initComponents(); 
-        FileChooser.setCurrentDirectory(new File("."));
+        // Cria um arquivo na pasta root/projetos da Visual Novel.
+        FileChooser.setCurrentDirectory(new File(".\\projetos"));
     }
     
     public FileSelector(MediaImporter mi) {
         this.mi = mi;
         initComponents(); 
+        // Cria um arquivo na pasta root da Visual Novel.
         FileChooser.setCurrentDirectory(new File("."));
     }
     

@@ -2,17 +2,21 @@ package model;
 
 import gui.MediaImporter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import static java.nio.file.StandardCopyOption.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Project 
 {
-    String gameName;
+    public String gameName;
     private String directory;
     public List<Scene> scenes;
     private Scene currentScene;
@@ -22,6 +26,10 @@ public class Project
      */
     private int sceneId;
     
+    /**
+     * Construtor para criacao de projeto.
+     * @param gameName 
+     */
     public Project(String gameName)
     {
         sceneId = 0;
@@ -30,6 +38,19 @@ public class Project
         scenes = new ArrayList();
         createEmptyScene();
         setCurrentScene(0);
+        export();
+    }
+    
+    /**
+     * Construtor para carregamento de projeto.
+     * @param target 
+     */
+    public Project(File target)
+    {
+        sceneId = 0;
+        gameName = target.getName();
+        directory = System.getProperty("user.dir") + "\\projetos\\" + gameName;
+        scenes = new ArrayList();
     }
     
     public Scene getCurrentScene()
@@ -53,6 +74,11 @@ public class Project
         sceneId++;
     }
     
+    public int getSceneCount()
+    {
+        return scenes.size();
+    }
+    
     public void saveCurrentScene(List<String> lines)
     {
         if (currentScene != null)
@@ -61,7 +87,7 @@ public class Project
     
     public void setCurrentSceneSavedState(boolean state)
     {
-        currentScene.saved = state;
+        currentScene.setSaveState(state);        
     }
     
     public void setCurrentScene(int index)
@@ -80,7 +106,10 @@ public class Project
     {
         for (int i = 0; i < scenes.size(); i++)
             if (scenes.get(i).id == currentScene.id)
+            {
                 scenes.remove(i);
+                break;
+            }
     }
     
     public boolean importFile(File target, MediaImporter.MediaType type)
@@ -117,21 +146,15 @@ public class Project
     }
     
     /**
-     * Cria as pastas do projeto.
-     * Sobrescreve a pasta de nome 'gameName' se ela já existe.
+     * Cria todas as pastas do projeto.
+     * Apaga todas as cenas, se a pasta do projeto já existe.
      */
     public boolean export()
     {
         String path = directory;
         File mainDir = new File(path);
-        
-        /*
         if (mainDir.exists())
-        {
-            System.out.println("Project already exists.");
-            return false;
-        }
-        */
+            deleteAllScenes();
                 
         mainDir.mkdir();
         path += "\\";
@@ -141,29 +164,131 @@ public class Project
         new File(path + "sprites").mkdir();
         try 
         {
-            new File(path + "save.save").createNewFile();
-            new File(path + "data.project").createNewFile();
+            new File(path + "save.save").createNewFile();            
+            // Criacao das cenas.
             for (int i = 0; i < scenes.size(); i++)
             {
                 File scene = new File(path + "scene" + scenes.get(i).id + ".scene");                
                 scene.createNewFile();
                 try
                 {
+                    // Preenche as cenas com seus dados.
                     FileWriter writer = new FileWriter(path + scene.getName());
-                    for (String line : scenes.get(i).getText())
-                        writer.append(line);
+                    //writer.append(scenes.get(i).getIdText());
+                    for (String line : scenes.get(i).getLines())                                      
+                        // Por algum motivo, o writer nao colocava '\n'. Funciona com o codigo do System.
+                        // Revisado: O '\n' nao aparece no notepad, mas ele existe!!
+                        writer.append(line);// + System.getProperty("line.separator"));
                     writer.close();
                 } 
-                catch (Exception e) 
+                catch (IOException e) 
                 {
-                    System.out.println("Project export exception: " + e.getMessage());
+                    System.out.println("#2 Project export exception: " + e.getMessage());
                 }                
             }
         }        
-        catch(Exception e)
+        catch(IOException e)
         {
-            System.out.println("Project export exception: " + e.getMessage());
+            System.out.println("#3 Project export exception: " + e.getMessage());
         }        
         return true;
+    }
+    
+    /**
+     * Carrega o arquivos de cenas do projeto-alvo.
+     * @param target 
+     */
+    public boolean load(File target)
+    {
+        File projectDir = new File(directory);
+        List<String> sceneLines = new ArrayList();
+        for (File file : projectDir.listFiles())
+        {
+            if (file.getName().contains(".scene"))
+            {
+                String sceneId = "";
+                try
+                {
+                    FileReader reader = new FileReader(file);
+                    String line = "";
+                    int ch = reader.read();
+                    int steps = 0;
+                    boolean gotSceneId = false;
+                    System.out.println("Lendo Arquivo: " + file.getName());
+                    while (ch != -1)
+                    {
+                        System.out.print((char)ch);
+                        if (ch == '<' && steps == 0)
+                        {
+                            // Recupera o ID da cena.
+                            line += (char)ch;
+                            ch = reader.read();
+                            while (ch != '>' && ch != -1)
+                            {
+                                line += (char)ch;
+                                sceneId += (char)ch;
+                                ch = reader.read();
+                            }
+                            line += (char)ch;
+                            ch = reader.read();
+                            gotSceneId = true;
+                            // Falha o carregamento se o id encontrando na cena eh diferente do que esta escrito no arquivo.
+                            if (!file.getName().contains(sceneId) || sceneId == "")
+                            {
+                                System.out.println("Project load error: Cena nao contem seu id: " + sceneId);
+                                return false;
+                            }
+                            if (ch == -1)
+                                break;
+                        }
+                        else if (!gotSceneId)
+                        {                            
+                            // Se nao comecar com o caractere '<', eh pq a cena foi alterada.
+                            System.out.println("Project load error: Cena nao comeca com caractere '<'");
+                            return false;
+                        }                        
+                        line += (char)ch;
+                        ch = reader.read();
+                        if (ch == '\n')
+                        {
+                            line += (char)ch;
+                            ch = reader.read();
+                            sceneLines.add(line);
+                            line = "";
+                        }
+                        steps++;
+                    }                    
+                    sceneLines.add(line); // Ultima linha da cena.
+                    createEmptyScene();
+                    scenes.get(scenes.size()-1).save(sceneLines);
+                    scenes.get(scenes.size()-1).id = Integer.parseInt(sceneId);
+                    sceneLines.clear();
+                    System.out.println("Fim da leitura: " + file.getName());
+                }
+                catch (IOException e)
+                {
+                    System.out.println("Project load exception: " + e.getMessage());
+                }
+            }
+        }     
+        return true;
+    }
+    
+    private void deleteAllScenes()
+    {
+        File projectDir = new File(directory);
+        for (File file : projectDir.listFiles())
+        {
+            if (file.getName().contains(".scene"))
+            {
+                try 
+                {
+                    Files.delete(Paths.get(file.getAbsolutePath()));
+                } catch (IOException ex) 
+                {
+                    Logger.getLogger(Project.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
     }
 }

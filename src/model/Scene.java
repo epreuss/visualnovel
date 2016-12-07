@@ -6,7 +6,7 @@ import java.util.List;
 public class Scene
 {
     public int id;
-    public boolean saved;
+    private boolean saved;
     private List<String> lines;
     
     public Scene(int id)
@@ -14,19 +14,37 @@ public class Scene
         saved = true;
         this.id = id;
         lines = new ArrayList<>();
-        lines.add("Empty Scene ID: " + id);        
+        lines.add(getIdText());
     }
     
-    public void save(List<String> lines)
+    public void save(List<String> target)
     {
-        if (lines.size() > 0)
-        {
-            this.lines = lines;
-            saved = true;
-        }
+        if (target.size() == 0)
+            return;
+        
+        // Copia as linhas, ao inves de simplesmente pegar a referencia.        
+        lines.clear();
+        for (String line : target)
+            lines.add(line);
+        saved = true;
     }
     
-    public List<String> getText()
+    public String getIdText()
+    {
+        return String.format("<" + id + ">");
+    }
+    
+    public boolean isSaved()
+    {
+        return saved;
+    }
+    
+    public void setSaveState(boolean state)
+    {
+        saved = state;
+    }
+    
+    public List<String> getLines()
     {
         return lines;
     }

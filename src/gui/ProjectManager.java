@@ -27,10 +27,15 @@ public class ProjectManager
      */
     public void onProjectCreate(String name)
     {
-        project = new Project(name);    
-        editor.onProjectStart(project);
-        export.setEnabled(true);
-        save.setEnabled(true);
+        if (canCreateProject(name))
+        {
+            project = new Project(name);    
+            editor.onProjectStart(project);
+            export.setEnabled(true);
+            save.setEnabled(true);
+        }
+        else
+            editor.showWindowMessage("Já existe um projeto com o mesmo nome.");
     }
     
     /**
@@ -38,17 +43,25 @@ public class ProjectManager
      */
     public void onProjectLoad(File target)
     {
-        if (validateFile(target))
+        if (validateFileAsDirectory(target))
         {
-            onProjectCreate(target.getName());
-            onProjectExport();
+            Project toLoad = new Project(target);
+            if (!toLoad.load(target))
+                editor.showWindowMessage("Cenas do projeto corrompidas. Carregamento falhou.");
+            else
+            {
+                project = toLoad;
+                editor.onProjectStart(project);
+                export.setEnabled(true);
+                save.setEnabled(true);
+            }
         }
     }
     
     /**
-     * Valida um arquivo, para ver se é um projeto de visual novel.
+     * Valida um arquivo para ver se é um diretorio.
      */
-    private boolean validateFile(File target)
+    private boolean validateFileAsDirectory(File target)
     {
         return target.isDirectory();
     }
@@ -62,6 +75,22 @@ public class ProjectManager
         //    editor.showWindowMessage("Já existe um projeto com este nome.");
     }
     
+    /**
+     * Percorre a lista de projetos e verifica se possui um do mesmo nome.
+     * @param name
+     * @return 
+     */
+    private boolean canCreateProject(String name)
+    {
+        String projectsPath = System.getProperty("user.dir") + "\\projetos";
+        File projectsDir = new File(projectsPath);
+        
+        for (File file : projectsDir.listFiles())
+            if (file.getName().equals(name))
+                return false;
+        return true;
+    }
+    
     public void importFile(File target, MediaType type)
     {
         if (!project.importFile(target, type))
@@ -71,6 +100,8 @@ public class ProjectManager
     public void deleteCurrentScene()
     {
         project.deleteCurrentScene();
+        if (project.getSceneCount() == 0)
+            save.setEnabled(false);
     }    
     
     public void setCurrentScene(int index)
@@ -106,5 +137,6 @@ public class ProjectManager
     public void addScene()
     {
         project.createEmptyScene();
+        save.setEnabled(true);
     }
 }

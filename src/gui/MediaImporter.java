@@ -68,6 +68,7 @@ public class MediaImporter implements ActionListener
     {
         editor.projectManager.importFile(target, lastSelectedType);
         editor.setEnabled(true);
+        editor.onMediaImported();
     }
     
     public void onFileNotSelected()

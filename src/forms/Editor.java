@@ -45,20 +45,26 @@ public class Editor extends javax.swing.JFrame {
      * @param newProject 
      */
     public void onProjectStart(Project newProject)
-    {
+    {        
+        // Atualizar nome do projeto.
+        LabelProjectName.setText(newProject.gameName);
         // Habilitar botoes da SceneManager.
         ButtonNewScene.setEnabled(true);
         ButtonDeleteScene.setEnabled(true); 
-        // Habilitar area de texto da cena.
-        TextAreaScene.setEnabled(true);
+        if (newProject.getSceneCount() > 0)
+        {
+            // Habilitar area de texto da cena.
+            TextAreaScene.setEnabled(true);
+            // Habilitar botoes de edicao de cena.
+            setSceneEditorButtonsEnabled(true);
+        }
         TextAreaScene.setText("");
-        // Habilitar botoes de edicao de cena.
-        setSceneEditorButtonsEnabled(true);
         // Habilitar botoes da midia.
         setMediaButtonsEnabled(true);
-        // Updates.
+        // Managers.
         sceneSelector.updateList(newProject);
-        //sceneEditor.updateTextArea(projectManager.getCurrentScene());        
+        // Árvore.
+        tree.createTree(MyTree);   
     }
         
     public void setSceneEditorButtonsEnabled(boolean active)
@@ -119,8 +125,7 @@ public class Editor extends javax.swing.JFrame {
      * @param projectName 
      */
     public void onWindowProjectNameAccept(String projectName)
-    {
-        LabelProjectName.setText(projectName);
+    {        
         projectManager.onProjectCreate(projectName);
         this.setEnabled(true);    
     }    
@@ -155,7 +160,7 @@ public class Editor extends javax.swing.JFrame {
     public void updateSceneSavedState()
     {
         String output = "Arquivo de Cena";
-        if (projectManager.getCurrentScene() != null && !projectManager.getCurrentScene().saved)
+        if (projectManager.getCurrentScene() != null && !projectManager.getCurrentScene().isSaved())
             output += " (nao salvo)";
         
         PanelSceneText.setBorder(javax.swing.BorderFactory.createTitledBorder(output));
@@ -170,6 +175,15 @@ public class Editor extends javax.swing.JFrame {
     public void onWindowMessageEnd()
     {
         this.setEnabled(true);  
+    }
+    
+    /**
+     * Callback para quando qualquer tipo de midia eh importada.
+     */
+    public void onMediaImported()
+    {
+        // Atualiza a árvore.
+        tree.createTree(MyTree); 
     }
     
     /**
@@ -493,7 +507,6 @@ public class Editor extends javax.swing.JFrame {
         MenuProject.add(MenuProjectCreate);
 
         MenuProjectLoad.setText("Carregar");
-        MenuProjectLoad.setEnabled(false);
         MenuProjectLoad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MenuProjectLoadActionPerformed(evt);
@@ -510,7 +523,7 @@ public class Editor extends javax.swing.JFrame {
         });
         MenuProject.add(MenuProjectExport);
 
-        MenuProjectSave.setText("Salvar");
+        MenuProjectSave.setText("Salvar Cena Atual");
         MenuProjectSave.setEnabled(false);
         MenuProjectSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

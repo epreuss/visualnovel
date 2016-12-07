@@ -20,7 +20,6 @@
             <MenuItem class="javax.swing.JMenuItem" name="MenuProjectLoad">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Carregar"/>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MenuProjectLoadActionPerformed"/>
@@ -37,7 +36,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="MenuProjectSave">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Salvar"/>
+                <Property name="text" type="java.lang.String" value="Salvar Cena Atual"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>

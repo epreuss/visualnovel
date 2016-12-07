@@ -19,7 +19,6 @@ public class SceneEditor implements ActionListener
     Editor editor;
     JTextArea textArea;
     JComboBox comboBox;
-    int currentSceneID;
     String[] staticCodes;
     
     public SceneEditor(Editor editor, JTextArea textArea, JComboBox comboBox)
@@ -27,7 +26,6 @@ public class SceneEditor implements ActionListener
         this.editor = editor;
         this.textArea = textArea;
         this.comboBox = comboBox;
-        currentSceneID = -1;
         createCodes();
     }
 
@@ -98,11 +96,10 @@ public class SceneEditor implements ActionListener
     {
         if (target == null)
             return;
-        currentSceneID = target.id;
         String text = "";
-        for (String line : target.getText())
+        for (String line : target.getLines())
             text += line;
-        textArea.setText(text);
+        textArea.setText(text);        
     }
     
     public void setTextAreaEnabled(boolean active)
