@@ -98,14 +98,11 @@ public class SceneEditor implements ActionListener
     {
         if (target == null)
             return;
-        if (true)//currentSceneID != target.id)
-        {            
-            currentSceneID = target.id;
-            String text = "";
-            for (String line : target.getText())
-                text += line;
-            textArea.setText(text);
-        }
+        currentSceneID = target.id;
+        String text = "";
+        for (String line : target.getText())
+            text += line;
+        textArea.setText(text);
     }
     
     public void setTextAreaEnabled(boolean active)
@@ -163,19 +160,6 @@ public class SceneEditor implements ActionListener
             }
             textArea.setText(output);
         }
-        //setCaretToLastCharacter();
+        textArea.setCaretPosition(caret + code.length() + 2);
     }      
-    
-    private void setCaretToLastCharacter()
-    {
-        String text = textArea.getText();
-        for (int i = text.length() - 1; i >= 0; i--)
-        {
-            if (text.charAt(i) != '\n' && text.charAt(i) != ' ')
-            {
-                textArea.setCaretPosition(i);
-                break;
-            }
-        }
-    }
 }

@@ -31,7 +31,7 @@ public class ProjectName extends javax.swing.JFrame {
         ButtonCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Visual Novel - Nome do projeto");
+        setTitle("Nome do projeto");
         setResizable(false);
 
         LabelMessage.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N

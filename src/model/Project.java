@@ -1,8 +1,12 @@
 package model;
 
+import gui.MediaImporter;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import static java.nio.file.StandardCopyOption.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,19 +83,56 @@ public class Project
                 scenes.remove(i);
     }
     
+    public boolean importFile(File target, MediaImporter.MediaType type)
+    {
+        String targetDir = "";
+        switch (type)
+        {
+            case BG:
+                targetDir = "backgrounds";
+                break;
+            case CG:
+                targetDir = "cgs";
+                break;
+            case Music:
+                targetDir = "musics";
+                break;
+            case Sprite:
+                targetDir = "sprites";
+                break;
+        }
+        
+        Path dirPath = Paths.get(directory + "\\" + targetDir + "\\" + target.getName());
+        Path targetPath = Paths.get(target.getAbsolutePath());
+        try 
+        {
+            Files.copy(targetPath, dirPath, COPY_ATTRIBUTES);
+            return true;
+        }
+        catch (Exception e)
+        {
+            System.out.println("Project import exception: " + e.getMessage());
+            return false;
+        }
+    }
+    
     /**
      * Cria as pastas do projeto.
      * Sobrescreve a pasta de nome 'gameName' se ela já existe.
      */
-    public void export()
+    public boolean export()
     {
         String path = directory;
         File mainDir = new File(path);
+        
         /*
         if (mainDir.exists())
-            return;
+        {
+            System.out.println("Project already exists.");
+            return false;
+        }
         */
-        
+                
         mainDir.mkdir();
         path += "\\";
         new File(path + "backgrounds").mkdir();
@@ -115,13 +156,14 @@ public class Project
                 } 
                 catch (Exception e) 
                 {
-                    System.out.println("Project exception: " + e.getMessage());
+                    System.out.println("Project export exception: " + e.getMessage());
                 }                
             }
         }        
         catch(Exception e)
         {
-            System.out.println("Project exception: " + e.getMessage());
+            System.out.println("Project export exception: " + e.getMessage());
         }        
+        return true;
     }
 }

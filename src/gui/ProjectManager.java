@@ -1,6 +1,7 @@
 package gui;
 
 import forms.Editor;
+import gui.MediaImporter.MediaType;
 import java.io.File;
 import java.util.List;
 import javax.swing.JMenuItem;
@@ -37,27 +38,19 @@ public class ProjectManager
      */
     public void onProjectLoad(File target)
     {
-        String name = validateFile(target);
-        if (name != null)
-            onProjectCreate(name);
+        if (validateFile(target))
+        {
+            onProjectCreate(target.getName());
+            onProjectExport();
+        }
     }
     
     /**
      * Valida um arquivo, para ver se é um projeto de visual novel.
      */
-    private String validateFile(File target)
+    private boolean validateFile(File target)
     {
-        if (target.isDirectory())
-        {
-            return target.getName();
-            /*
-            File[] childrenFiles = target.listFiles();
-            for (File f : childrenFiles)
-                if (f.getName() == "data.project")
-                    return f;
-            */
-        }
-        return null;
+        return target.isDirectory();
     }
     
     /**
@@ -66,13 +59,15 @@ public class ProjectManager
     public void onProjectExport()
     {
         project.export();
+        //    editor.showWindowMessage("Já existe um projeto com este nome.");
     }
     
-    /**
-     * Deleta uma cena do projeto.
-     * @param index 
-     * @return  
-     */
+    public void importFile(File target, MediaType type)
+    {
+        if (!project.importFile(target, type))
+            editor.showWindowMessage("Já existe um arquivo com o mesmo nome.");
+    }
+
     public void deleteCurrentScene()
     {
         project.deleteCurrentScene();

@@ -2,6 +2,7 @@ package forms;
 import gui.ProjectManager;
 import forms.auxiliars.FileSelector;
 import forms.auxiliars.ProjectName;
+import forms.auxiliars.ShowMessage;
 import gui.*;
 import java.io.File;
 import model.*;
@@ -15,6 +16,7 @@ public class Editor extends javax.swing.JFrame {
     public ProjectManager projectManager;
     public SceneSelector sceneSelector;
     public SceneEditor sceneEditor;
+    public MediaImporter mediaImporter;
     Tree tree = new Tree();
 
     public Editor() {
@@ -29,10 +31,12 @@ public class Editor extends javax.swing.JFrame {
     {
         tree.createTree(MyTree);        
         LabelProjectName.setText("");    
-        this.projectManager = new ProjectManager(this, MenuProjectExport, MenuProjectSave);
-        this.sceneSelector = new SceneSelector(this, ListScene, ButtonNewScene, ButtonDeleteScene);
-        this.sceneEditor = new SceneEditor(this, TextAreaScene, ComboBoxSprite);
+        projectManager = new ProjectManager(this, MenuProjectExport, MenuProjectSave);
+        sceneSelector = new SceneSelector(this, ListScene, ButtonNewScene, ButtonDeleteScene);
+        sceneEditor = new SceneEditor(this, TextAreaScene, ComboBoxSprite);
+        mediaImporter = new MediaImporter(this);
         setSceneEditorListeners();        
+        setMediaButtonsListeners();
     }
     
     /**
@@ -56,7 +60,7 @@ public class Editor extends javax.swing.JFrame {
         sceneSelector.updateList(newProject);
         //sceneEditor.updateTextArea(projectManager.getCurrentScene());        
     }
-    
+        
     public void setSceneEditorButtonsEnabled(boolean active)
     {
         ButtonAddDialogue.setEnabled(active);
@@ -98,6 +102,18 @@ public class Editor extends javax.swing.JFrame {
         ButtonImportSprite.setEnabled(active);
     }
     
+    private void setMediaButtonsListeners()
+    {
+        ButtonImportBG.addActionListener(mediaImporter);
+        ButtonImportBG.setActionCommand("BG");
+        ButtonImportCG.addActionListener(mediaImporter);
+        ButtonImportCG.setActionCommand("CG");
+        ButtonImportMusic.addActionListener(mediaImporter);
+        ButtonImportMusic.setActionCommand("Music");
+        ButtonImportSprite.addActionListener(mediaImporter);
+        ButtonImportSprite.setActionCommand("Sprite");
+    }
+    
     /**
      * Callback da janela de selecao do nome do projeto.
      * @param projectName 
@@ -127,6 +143,15 @@ public class Editor extends javax.swing.JFrame {
         this.setEnabled(true);  
     }
     
+    /**
+     * Callback da janela de selecao de arquivo.     
+     * @param target
+     */
+    public void onFileNotSelected()
+    {
+        this.setEnabled(true);
+    } 
+    
     public void updateSceneSavedState()
     {
         String output = "Arquivo de Cena";
@@ -134,6 +159,17 @@ public class Editor extends javax.swing.JFrame {
             output += " (nao salvo)";
         
         PanelSceneText.setBorder(javax.swing.BorderFactory.createTitledBorder(output));
+    }
+    
+    public void showWindowMessage(String message)
+    {
+        ShowMessage.main(this, message);
+        this.setEnabled(false);  
+    }    
+    
+    public void onWindowMessageEnd()
+    {
+        this.setEnabled(true);  
     }
     
     /**
@@ -503,14 +539,12 @@ public class Editor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void MenuProjectCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuProjectCreateActionPerformed
-        ProjectName window = null;
-        window.main(this);
+        ProjectName.main(this);
         this.setEnabled(false);                  
     }//GEN-LAST:event_MenuProjectCreateActionPerformed
 
     private void MenuProjectLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuProjectLoadActionPerformed
-        FileSelector window = null;
-        window.main(this);   
+        FileSelector.main(this);   
         this.setEnabled(false);    
     }//GEN-LAST:event_MenuProjectLoadActionPerformed
 
