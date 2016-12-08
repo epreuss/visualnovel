@@ -1,0 +1,12 @@
+<0>
+changebg "sky.jpeg"
+addsprite(left) "Ibuki.jpeg"
+addsprite(right) "ChiakiNormal.png"
+dial "ibuki" "Ya, hey chiaki"
+dial "chiaki" "Hello ibuki"
+dial "ibuki" "I wanted you to check my 10 min video"
+dial "chiaki" "What is is about?"
+dial "ibuki" "Singing!""
+choice "Check video?"
+Watch.scene(Yes)
+DontWach.scene(No)

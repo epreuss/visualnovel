@@ -1,0 +1,15 @@
+<0>
+changebg "sky.jpeg"
+addsprite(esquerda) "ibuki.jpeg"
+addsprite(direita) "chiaki.jpeg"
+dial "ibuki" "Yaa, hey chiaki"
+dial "chiaki" "Hello ibuki"
+dial "ibuki" "I wanted you to check my 10 min video"
+dial "chiaki" "What is is about?"
+dial "ibuki" "Singing!"
+dial "chiaki" "Cool =3! I will take a look."
+removesprite(direita)
+dial "ibuki" "Hay!"
+removesprite(esquerda)
+branch "scene1.scene"
+
