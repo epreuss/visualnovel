@@ -1,0 +1,12 @@
+<2>
+changebg "Sky"
+stopsong
+addsprite(left) "Nagito_Talk"
+addsprite(right) "Mahiru"
+dial "Nagito" "Alright, I guess I'm leaving."
+addsprite(right) "Mahiru_Greeting"
+dial "Mahiru" "See you later, Nagito!"
+end
+
+
+

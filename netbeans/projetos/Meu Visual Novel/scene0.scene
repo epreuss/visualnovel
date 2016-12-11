@@ -1,0 +1,26 @@
+<0>
+changebg "Sky"
+playsong "Beautiful_Ruin"
+addsprite(left) "Nagito"
+addsprite(right) "Mahiru_Greeting"
+dial "Nagito" "Hello, Mahiru!"
+dial "Mahiru" "Hey, Nagito, what's up?"
+dial "Nagito" "Im chilling. Do you to hang out for a while?"
+addsprite(left) "Nagito_Talk"
+addsprite(right) "Mahiru"
+dial "Mahiru" "Well, I guess I can hang with you."
+changebg "Black"
+removesprite(left)
+removesprite(right)
+dial "Nagito" "I spent time today sipping some tea and listening to Mahiru vent her frustations."
+changebg "Sky"
+addsprite(left) "Nagito_Talk"
+addsprite(right) "Mahiru_Feliz"
+dial "" "It looks like Mahiru and I grew a little closer..."
+choice "Would you like to give Mahiru a present?"
+scene1.scene(Definitely!)
+scene2.scene(Not really...)
+
+
+
+

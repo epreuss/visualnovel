@@ -24,17 +24,43 @@ public class GameManager : MonoBehaviour {
 
 	private bool gameOver = false;
 	private bool waitingForChoice = false;
+	private bool skipping = false;
+	private float skipDelay = 0.15f;
+	private float timerSkip = 0;
+	
 
 	void Start () {
 		parser = GetComponent<Parser> ();
 		audioPlayer = GetComponent<AudioSource> ();
 
-		parser.LoadScene("Start.scene");
+		parser.LoadScene("scene0.scene");
+		parser.ReadCommand ();	
 	}	
 
 	void Update () {
-		if (Input.GetKeyDown (KeyCode.Space) && !gameOver && !waitingForChoice)
-			parser.ReadCommand ();			
+		bool canRead = !gameOver && !waitingForChoice;
+		if (Input.GetKeyDown (KeyCode.Space) && canRead)
+			parser.ReadCommand ();	
+		if (Input.GetKey(KeyCode.LeftControl))
+		{
+			if (!skipping)
+				timerSkip = 0;	
+			skipping = true;
+		}
+		else
+		{
+			skipping = false;
+		}
+		if (skipping)
+		{
+			timerSkip += Time.deltaTime;
+			if (timerSkip > skipDelay)
+			{
+				if (canRead)
+					parser.ReadCommand ();	
+				timerSkip = 0;
+			}
+		}		
 	}
 
 	private void ShowChoiceMenu(bool state){
@@ -47,7 +73,7 @@ public class GameManager : MonoBehaviour {
 		RemoveSprite (Side.left);
 		RemoveSprite (Side.center);
 		RemoveSprite (Side.right);
-		StopSong ();
+		//StopSong ();
 		ChangeBackground ("");
 		ChangeText ("", "");
 	}
@@ -62,7 +88,7 @@ public class GameManager : MonoBehaviour {
 			image = centerSprite.GetComponent<Image> ();
 		else 
 			image = rightSprite.GetComponent<Image> ();
-
+				
 		image.sprite = sprite;
 		image.color = Color.white;
 	}
@@ -87,10 +113,15 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void ChangeText(string speaker, string dialog){
-		textBox.GetComponent<Text> ().text = speaker + ":\n" + dialog;
+		if (speaker == "")
+			textBox.GetComponent<Text> ().text = dialog;
+		else
+			textBox.GetComponent<Text> ().text = speaker + ":\n" + dialog;
 	}
 
 	public void PlaySong(string songName){
+		if (audioPlayer.isPlaying)
+			return;
 		AudioClip song = Resources.Load<AudioClip> ("musics/" + songName);
 
 		audioPlayer.PlayOneShot (song);
@@ -130,7 +161,7 @@ public class GameManager : MonoBehaviour {
 
 
 	public void EndGame(){
-		ResetScreen();
+		ResetScreen();		
 		ChangeText ("", "Game Over");
 		gameOver = true;
 	}

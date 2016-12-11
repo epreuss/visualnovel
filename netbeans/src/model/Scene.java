@@ -3,6 +3,11 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
    
+/**
+ * Guarda uma string de linhas para serem interpretadas
+ * pelo parser, que vai dar vida para as linhas.
+ * @author Estevan
+ */
 public class Scene
 {
     public int id;
@@ -17,6 +22,10 @@ public class Scene
         lines.add(getIdText());
     }
     
+    /**
+     * Salva a cena com novas linhas.
+     * @param target Linhas de string.
+     */
     public void save(List<String> target)
     {
         if (target.size() == 0)
@@ -29,21 +38,37 @@ public class Scene
         saved = true;
     }
     
+    /**
+     * Retorna texto de id da cena.
+     * @return String do id.
+     */
     public String getIdText()
     {
         return String.format("<" + id + ">");
     }
     
+    /**
+     * Retorna se esta salva.
+     * @return Salva ou nao.
+     */
     public boolean isSaved()
     {
         return saved;
     }
     
+    /**
+     * Modifica o estado da cena.
+     * @param state Salvo ou nao.
+     */
     public void setSaveState(boolean state)
     {
         saved = state;
     }
     
+    /**
+     * Retorna as linhas da cena.
+     * @return Lista de strings.
+     */
     public List<String> getLines()
     {
         return lines;

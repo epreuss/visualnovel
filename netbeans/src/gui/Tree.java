@@ -5,6 +5,10 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
+/**
+ * Classe para mostrar uma arvore de projetos.
+ * @author Internet
+ */
 public class Tree {
 
     private DefaultMutableTreeNode root;

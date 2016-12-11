@@ -1,14 +1,12 @@
 package forms;
 import gui.ProjectManager;
-import forms.auxiliars.FileSelector;
-import forms.auxiliars.ProjectName;
-import forms.auxiliars.ShowMessage;
 import gui.*;
 import java.io.File;
 import model.*;
 
 /**
- *
+ * Janela principal da edicao da visual novel.
+ * Possui componentes para todas operacoes.
  * @author Estevan
  */
 public class Editor extends javax.swing.JFrame {
@@ -42,7 +40,7 @@ public class Editor extends javax.swing.JFrame {
     /**
      * Operacoes para quando um projeto eh criado ou aberto.
      * Exemplos: Habilitar botoes.
-     * @param newProject 
+     * @param newProject Projeto aberto.
      */
     public void onProjectStart(Project newProject)
     {        
@@ -67,6 +65,10 @@ public class Editor extends javax.swing.JFrame {
         tree.createTree(MyTree);   
     }
         
+    /**
+     * Ativa ou nao botoes de edicao da cena.
+     * @param active Ativo.
+     */
     public void setSceneEditorButtonsEnabled(boolean active)
     {
         ButtonAddDialogue.setEnabled(active);
@@ -79,6 +81,9 @@ public class Editor extends javax.swing.JFrame {
         ComboBoxSprite.setEnabled(active);
     }
     
+    /**
+     * Ativa os listeners de botoes da edicao da cena.
+     */
     private void setSceneEditorListeners()
     {
         ButtonAddDialogue.addActionListener(sceneEditor);
@@ -98,8 +103,9 @@ public class Editor extends javax.swing.JFrame {
     }
     
     /**
-    * Ativa ou desativa botoes da midia.
-    */
+     * Ativa ou desativa botoes da midia.
+     * @param active Ativo
+     */
     private void setMediaButtonsEnabled(boolean active)
     {
         ButtonImportCG.setEnabled(active);
@@ -108,6 +114,9 @@ public class Editor extends javax.swing.JFrame {
         ButtonImportSprite.setEnabled(active);
     }
     
+    /**
+     * Ativa os listeners dos botoes da midia.
+     */
     private void setMediaButtonsListeners()
     {
         ButtonImportBG.addActionListener(mediaImporter);
@@ -122,7 +131,7 @@ public class Editor extends javax.swing.JFrame {
     
     /**
      * Callback da janela de selecao do nome do projeto.
-     * @param projectName 
+     * @param projectName Nome do projeto.
      */
     public void onWindowProjectNameAccept(String projectName)
     {        
@@ -140,7 +149,7 @@ public class Editor extends javax.swing.JFrame {
     
     /**
      * Callback da janela de selecao de arquivo.     
-     * @param target
+     * @param target Arquivo selecionado.
      */
     public void onFileSelected(File target)
     {
@@ -149,14 +158,17 @@ public class Editor extends javax.swing.JFrame {
     }
     
     /**
-     * Callback da janela de selecao de arquivo.     
-     * @param target
+     * Callback da janela de selecao de arquivo.          
      */
     public void onFileNotSelected()
     {
         this.setEnabled(true);
     } 
     
+    /**
+     * Atualiza a label que mostra o estado da cena,
+     * se esta salva ou nao.
+     */
     public void updateSceneSavedState()
     {
         String output = "Arquivo de Cena";
@@ -166,12 +178,19 @@ public class Editor extends javax.swing.JFrame {
         PanelSceneText.setBorder(javax.swing.BorderFactory.createTitledBorder(output));
     }
     
+    /**
+     * Cria uma janela para mostrar uma mensagem.
+     * @param message Mensagem.
+     */
     public void showWindowMessage(String message)
     {
         ShowMessage.main(this, message);
         this.setEnabled(false);  
     }    
     
+    /**
+     * Callback para fim da janela de mensagem.
+     */
     public void onWindowMessageEnd()
     {
         this.setEnabled(true);  
@@ -407,7 +426,7 @@ public class Editor extends javax.swing.JFrame {
         ButtonAddSprite.setText("Adicionar Sprite");
         ButtonAddSprite.setEnabled(false);
 
-        ComboBoxSprite.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Esquerda", "Centro", "Direita" }));
+        ComboBoxSprite.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Left", "Center", "Right" }));
         ComboBoxSprite.setEnabled(false);
 
         javax.swing.GroupLayout PanelSceneEditionLayout = new javax.swing.GroupLayout(PanelSceneEdition);

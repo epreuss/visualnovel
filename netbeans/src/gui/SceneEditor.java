@@ -31,7 +31,7 @@ public class SceneEditor implements ActionListener
 
     /**
      * Listener para os botoes que editam a cena. 
-     * @param e 
+     * @param e Evento.
      */
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -64,23 +64,34 @@ public class SceneEditor implements ActionListener
         textArea.requestFocus();
     }
     
+    /**
+     * Cria os codigos de edicao.
+     */
     private void createCodes()
     {
         staticCodes = new String[5];
         staticCodes[0] = "dial \"person\" \"text\"";
-        staticCodes[1] = "changebg \"name.jpeg\"";
-        staticCodes[2] = "playsong \"name.mp3\"\nstopsong";
-        staticCodes[3] = "choice \"pergunta?\", aceita.scene(\"sim\"), nega.scene(\"nao\")";
+        staticCodes[1] = "changebg \"name\"";
+        staticCodes[2] = "playsong \"name\"\nstopsong";
+        staticCodes[3] = "choice \"pergunta?\"\naceita.scene(sim)\nnega.scene(nao)";
         staticCodes[4] = "branch \"name.scene\"";
     }
     
+    /**
+     * Retorna codigo de adicao de sprite.
+     * @return Codigo.
+     */
     private String getAddSpriteCode()
     {
         String spritePlace = comboBox.getSelectedItem().toString();
         spritePlace = spritePlace.toLowerCase();
-        return String.format("addsprite(" + spritePlace + ") \"name.jpeg\"");
+        return String.format("addsprite(" + spritePlace + ") \"name\"");
     }
     
+    /**
+     * Retorna codigo de remocao de sprite.
+     * @return Codigo.
+     */
     private String getRemoveSpriteCode()
     {
         String spritePlace = comboBox.getSelectedItem().toString();
@@ -90,7 +101,7 @@ public class SceneEditor implements ActionListener
     
     /**
      * Transfere as linhas de uma cena para a area de texto.
-     * @param target 
+     * @param target Cena-alvo.
      */
     public void updateTextArea(Scene target)
     {
@@ -102,6 +113,10 @@ public class SceneEditor implements ActionListener
         textArea.setText(text);        
     }
     
+    /**
+     * Ativa ou nao a area de texto.
+     * @param active Ativo.
+     */
     public void setTextAreaEnabled(boolean active)
     {
         textArea.setEnabled(active);
@@ -114,7 +129,7 @@ public class SceneEditor implements ActionListener
      * Pega a String no componente de area de texto e
      * transforma em uma lista de Strings, que eh
      * formato que a cena usa para salvar seu texto.
-     * @return 
+     * @return Lista de Strings.
      */
     public List<String> getSceneText()
     {
@@ -135,7 +150,7 @@ public class SceneEditor implements ActionListener
     
     /**
      * Adiciona uma linha de codigo para a area de texto.
-     * @param code 
+     * @param code Codigo em string.
      */
     private void addCode(String code)
     {

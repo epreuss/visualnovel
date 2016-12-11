@@ -8,12 +8,13 @@ public class Parser : MonoBehaviour {
 	private int currentLine;
 
 
-	void Start () {
+	void Awake () {
 		gameManagerScript = GetComponent<GameManager> ();
 	}
 
 	public void LoadScene(string sceneName){
 		lines = System.IO.File.ReadAllLines ("Assets/Resources/" + sceneName);
+		gameManagerScript.ResetScreen();
 		currentLine = 0;
 	}
 
@@ -124,9 +125,9 @@ public class Parser : MonoBehaviour {
 	}
 
 	void LoadSceneCommand(string line){
-		string sceneString = line.Split (new string[] {"\"", "\""},System.StringSplitOptions.None)[1];
-		gameManagerScript.ResetScreen();
+		string sceneString = line.Split (new string[] {"\"", "\""},System.StringSplitOptions.None)[1];		
 		LoadScene (sceneString);
+		gameManagerScript.ResetScreen();
 	}
 
 	void EndGameCommand(){

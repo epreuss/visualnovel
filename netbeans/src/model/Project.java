@@ -14,21 +14,22 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Guarda varias cenas dentro e realiza operacoes
+ * com arquivos, como importar e exportar.
+ * @author Owner
+ */
 public class Project 
 {
     public String gameName;
     private String directory;
     public List<Scene> scenes;
     private Scene currentScene;
-    
-    /**
-     * Contador de ID para a criação de cenas.
-     */
     private int sceneId;
     
     /**
      * Construtor para criacao de projeto.
-     * @param gameName 
+     * @param gameName Nome do projeto.
      */
     public Project(String gameName)
     {
@@ -43,7 +44,7 @@ public class Project
     
     /**
      * Construtor para carregamento de projeto.
-     * @param target 
+     * @param target Arquivo selecionado.
      */
     public Project(File target)
     {
@@ -53,43 +54,74 @@ public class Project
         scenes = new ArrayList();
     }
     
+    /**
+     * Retorna a cena atual.
+     * @return Cena.
+     */
     public Scene getCurrentScene()
     {
         return currentScene;
     }
     
+    /**
+     * Retorna total de cenas.
+     * @return Quantidade.
+     */
     public int getTotalScenes()
     {
         return scenes.size();
     }
     
+    /**
+     * Retorna a ultima cena criada.
+     * @return Cena.
+     */
     public Scene getLastCreatedScene()
     {
         return scenes.get(scenes.size()-1);
     }
     
+    /**
+     * Cria uma cena vazia.
+     */
     public void createEmptyScene()
     {
         scenes.add(new Scene(sceneId));
         sceneId++;
     }
     
+    /**
+     * Retorna o total de cenas.
+     * @return Quantidade.
+     */
     public int getSceneCount()
     {
         return scenes.size();
     }
     
+    /**
+     * Salva a cena atual.
+     * @param lines Linhas da cena.
+     */
     public void saveCurrentScene(List<String> lines)
     {
         if (currentScene != null)
             currentScene.save(lines);
     }
     
+    /**
+     * Atualiza o estado da cena.
+     * @param state Salvo ou nao.
+     */
     public void setCurrentSceneSavedState(boolean state)
     {
         currentScene.setSaveState(state);        
     }
     
+    /**
+     * Modifica a cena atual.
+     * @param index Indice da cena.
+     */
     public void setCurrentScene(int index)
     {
         if (index >= 0)
@@ -102,6 +134,9 @@ public class Project
         }
     }
     
+    /**
+     * Deleta a cena atual.
+     */
     public void deleteCurrentScene()
     {
         for (int i = 0; i < scenes.size(); i++)
@@ -112,6 +147,12 @@ public class Project
             }
     }
     
+    /**
+     * Importa uma midia para o projeto.
+     * @param target Pasta do projeto.
+     * @param type Tipo da midia.
+     * @return Importou com sucesso ou nao.
+     */
     public boolean importFile(File target, MediaImporter.MediaType type)
     {
         String targetDir = "";
@@ -148,6 +189,7 @@ public class Project
     /**
      * Cria todas as pastas do projeto.
      * Apaga todas as cenas, se a pasta do projeto já existe.
+     * @return Exportou com sucesso ou nao.
      */
     public boolean export()
     {
@@ -196,7 +238,8 @@ public class Project
     
     /**
      * Carrega o arquivos de cenas do projeto-alvo.
-     * @param target 
+     * @param target Arquivo selecionado.
+     * @return Carregou com sucesso ou nao.
      */
     public boolean load(File target)
     {
@@ -274,6 +317,9 @@ public class Project
         return true;
     }
     
+    /**
+     * Deleta todas cenas do projeto.
+     */
     private void deleteAllScenes()
     {
         File projectDir = new File(directory);

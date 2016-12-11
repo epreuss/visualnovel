@@ -1,20 +1,22 @@
 package gui;
 
 import forms.Editor;
-import forms.auxiliars.FileSelector;
+import forms.FileSelector;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
-
-
 /**
- * Carrega arquivos para o projeto.
+ * Importa background, sprites, CGs e musicas
+ * para o diretorio do projeto.
  * @author Estevan
  */
 public class MediaImporter implements ActionListener
 {    
-
+    
+    /**
+     * Tipo de midia.
+     */
     public enum MediaType
     {
         BG,
@@ -33,7 +35,7 @@ public class MediaImporter implements ActionListener
     
     /**
      * Chamado quando um botao de importacao eh ativado.
-     * @param e 
+     * @param e Evento.
      */
     @Override
     public void actionPerformed(ActionEvent e) 
@@ -62,7 +64,7 @@ public class MediaImporter implements ActionListener
     /**
      * Callback da janela de selecao de arquivo.    
      * Envia o arquivo selecionado para o projeto.
-     * @param target
+     * @param target Arquivo-alvo.
      */
     public void onFileSelected(File target)
     {
@@ -71,6 +73,9 @@ public class MediaImporter implements ActionListener
         editor.onMediaImported();
     }
     
+    /**
+     * Callback para quando nada foi selecionado.
+     */
     public void onFileNotSelected()
     {
         editor.setEnabled(true);

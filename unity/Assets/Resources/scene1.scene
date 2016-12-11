@@ -1,0 +1,35 @@
+<1>
+changebg "Sky"
+playsong "Beautiful_Ruin"
+addsprite(center) "Mahiru"
+dial "Mahiru" "C-Can I really have this gift?"
+dial "Mahiru" "Thanks Nagito, I'll make sure I take good care of it."
+addsprite(center) "Mahiru_Foto"
+dial "Mahiru" "Ah, Nagito. Stay there... right there."
+dial "Nagito" "Hm?"
+dial "Mahiru" "Okay, say cheese! ... Just kidding."
+dial "" "*Click!*"
+removesprite(center)
+addsprite(right) "Mahiru_Feliz"
+addsprite(left) "Nagito_Talk"
+dial "Mahiru" "Well, I guess this is good enough."
+dial "Mahiru" " Yep, that sure is a dumb-looking face."
+addsprite(left) "Nagito_Duvida"
+dial "Nagito" "Dumb-looking face?"
+dial "Nagito" "That`s only because you took my picture so suddenly."
+addsprite(right) "Mahiru"
+dial "Mahiru" "This is just a record."
+addsprite(left) "Nagito"
+dial "Nagito" "What kind of record?"
+dial "Mahiru" "A record is just a record."
+dial "Mahiru" "I want a record that right now..."
+dial "Mahiru" "We're all living together in this place..."
+dial "Nagito" "I see, that's a good idea."
+addsprite(left) "Nagito_Talk"
+dial "Nagito" "Well... I have to go. Sorry, Mahiru."
+addsprite(right) "Mahiru_Feliz"
+dial "Mahiru" "Ok... bye! See you at lunch!"
+stopsong
+end
+
+

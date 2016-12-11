@@ -8,7 +8,7 @@ import model.Project;
 import model.Scene;
 
 /**
- *
+ * Administra as cenas, em relacao a selecao, adicao e remocao.
  * @author Estevan
  */
 public class SceneSelector 
@@ -29,7 +29,6 @@ public class SceneSelector
         delete = d;
         
         scenes = new Vector();
-        //scenes.add(" ");
         
         scenesList = l;        
         scenesList.setEnabled(false);
@@ -66,6 +65,10 @@ public class SceneSelector
         }
     }
     
+    /**
+     * Chamado quando existe uma mudanca no componente
+     * que guarda as cenas do projeto.
+     */
     public void onChangeScene()
     {
         /*
@@ -126,14 +129,12 @@ public class SceneSelector
             addedScene = false;
             deletedScene = false;
         }
-       
-  
     }        
     
     /**
      * Atualiza a lista de cenas com as cenas do projeto.
      * Seleciona uma cena nova quando existe remocao.
-     * @param p 
+     * @param p Projeto.
      */
     public void updateList(Project p)
     {
@@ -162,12 +163,20 @@ public class SceneSelector
         }
     }
     
+    /**
+     * Adiciona uma cena na lista de cenas.
+     * @param target Cena.
+     */
     public void addSceneToList(Scene target)
     {
         scenes.add("Cena " + target.id); 
         scenesList.setListData(scenes);   
     }    
 
+    /**
+     * Deleta uma cena da lista.
+     * @param target Cena.
+     */
     public void deleteSceneFromList(Scene target)
     {
         for (int i = 0; i < scenes.size(); i++)      
